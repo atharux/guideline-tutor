@@ -1,0 +1,1660 @@
+<meta charset="UTF-8">
+<title>App Review Guideline Tutor · a reviewer's reference</title>
+<meta name="description" content="All current App Store Review Guidelines, cited, explained plainly, with memorization chunking, a drill mode, a reviewer changelog, a rule-based self-audit, and a live App Store lookup.">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a6d6f205131647ddbb782f24af1b01c4"}'></script><!-- End Cloudflare Web Analytics -->
+<style>
+  @font-face{
+    font-family:'Space Grotesk';
+    font-weight:400 700;
+    src: local('Space Grotesk');
+  }
+  :root{
+    /* ground */
+    --paper: #efeadd;
+    --plate: #fbf8ef;
+    --rail: #e8e2d1;
+    --hover: #e2dbc7;
+    /* ink */
+    --ink: #201e18;
+    --body: #47433a;
+    --prose2: #56514a;
+    --muted: #8b8677;
+    --faint: #a89f89;
+    /* rules */
+    --rule-soft: #ddd5c2;
+    --rule: #d3cbb8;
+    --rule-firm: #c3bba6;
+    /* five section accents, in the lightMuseum family */
+    --safety:     #b5622a; /* sienna   */
+    --safety-bg:  #f3e3d4;
+    --performance:#2f7d84; /* teal     */
+    --performance-bg:#dcebec;
+    --business:   #4d7a46; /* verdigris*/
+    --business-bg:#dfe9dc;
+    --design:     #6a5aa6; /* purple   */
+    --design-bg:  #e5e1f0;
+    --legal:      #7a4040; /* oxblood, new in-family */
+    --legal-bg:   #ecdcdc;
+    --changed:    #a8791f; /* amber, "changed since 2016" flag */
+    --changed-bg: #f2e6c9;
+    /* type */
+    --mono: 'DM Mono','Space Mono',ui-monospace,SFMono-Regular,monospace;
+    --disp: 'Space Grotesk',system-ui,-apple-system,sans-serif;
+    --radius: 2px;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper: #17140f;
+      --plate: #1e1a13;
+      --rail: #1c1811;
+      --hover: #262117;
+      --ink: #efeadd;
+      --body: #cbc4b3;
+      --prose2: #b8b09d;
+      --muted: #8f8875;
+      --faint: #6e6852;
+      --rule-soft: #322c20;
+      --rule: #3a3325;
+      --rule-firm: #473f2c;
+      --safety-bg: #33220f;
+      --performance-bg: #0f2b2c;
+      --business-bg: #1a2a17;
+      --design-bg: #241f38;
+      --legal-bg: #2c1717;
+      --changed-bg: #332a0f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper: #17140f;
+    --plate: #1e1a13;
+    --rail: #1c1811;
+    --hover: #262117;
+    --ink: #efeadd;
+    --body: #cbc4b3;
+    --prose2: #b8b09d;
+    --muted: #8f8875;
+    --faint: #6e6852;
+    --rule-soft: #322c20;
+    --rule: #3a3325;
+    --rule-firm: #473f2c;
+    --safety-bg: #33220f;
+    --performance-bg: #0f2b2c;
+    --business-bg: #1a2a17;
+    --design-bg: #241f38;
+    --legal-bg: #2c1717;
+    --changed-bg: #332a0f;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--mono); line-height:1.6; -webkit-font-smoothing:antialiased;
+    height:100vh; overflow:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important} }
+  a{color:inherit}
+  button{font-family:inherit}
+  ::selection{ background: var(--faint); color: var(--paper); }
+
+  h1,h2,h3{font-family:var(--disp); margin:0; letter-spacing:-.01em; font-weight:600; text-wrap:balance}
+
+  .app{ display:grid; grid-template-columns: 340px 1fr; height:100vh; }
+  .rail-scrim{ display:none; }
+  @media (max-width: 860px){ .app{ grid-template-columns: 1fr; } .rail{ position:fixed; inset:0 20% 0 0; z-index:20; transform:translateX(-100%); transition:transform .22s ease } .rail.open{ transform:translateX(0) } .rail-scrim.show{ display:block; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:19 } .menu-btn{ display:inline-flex !important } }
+
+  /* ---------- LEFT RAIL ---------- */
+  .rail{ background:var(--rail); border-right:1px solid var(--rule); display:flex; flex-direction:column; min-height:0; }
+  .rail-head{ padding:20px 18px 14px; border-bottom:1px solid var(--rule-soft); }
+  .rail-back{ display:block; font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--muted); text-decoration:none; margin-bottom:10px; }
+  .rail-back:hover{ color:var(--performance); }
+  .brand{ font-family:var(--disp); font-size:16px; font-weight:700; letter-spacing:.02em; }
+  .brand-sub{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:3px; }
+
+  .search-wrap{ padding:14px 18px 10px; border-bottom:1px solid var(--rule-soft); }
+  .search{
+    display:flex; align-items:center; gap:8px; border:1px solid var(--rule-firm);
+    background:var(--plate); padding:8px 10px; border-radius:var(--radius);
+  }
+  .search svg{ flex:none; opacity:.55 }
+  .search input{
+    border:0; outline:0; background:transparent; color:var(--ink); font-family:var(--mono);
+    font-size:12.5px; width:100%;
+  }
+  .search input::placeholder{ color:var(--faint) }
+  .search-count{ font-size:10px; color:var(--faint); letter-spacing:.05em; margin-top:6px; padding-left:2px }
+
+  .pillrow{ display:flex; flex-wrap:wrap; gap:6px; padding:12px 18px; border-bottom:1px solid var(--rule-soft); }
+  .pill{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
+    border:1px solid var(--rule-firm); background:var(--plate); color:var(--body);
+    padding:5px 10px; border-radius:20px; cursor:pointer; white-space:nowrap;
+  }
+  .pill[data-on="true"]{ color:var(--paper); border-color:transparent; }
+  .pill:focus-visible, .search input:focus-visible, button:focus-visible, .glist-item:focus-visible{ outline:2px solid var(--performance); outline-offset:2px }
+
+  .modepills{ display:flex; flex-wrap:wrap; gap:6px; padding:12px 18px 4px; }
+  .modepill{
+    flex:1 1 calc(50% - 6px); font-family:var(--mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase;
+    border:1px solid var(--rule-firm); background:transparent; color:var(--muted);
+    padding:8px 5px; border-radius:var(--radius); cursor:pointer; text-align:center; white-space:nowrap;
+  }
+  .modepill[data-on="true"]{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+
+  .glist{ flex:1; overflow-y:auto; padding:8px 0 24px; }
+  .gsection{ padding-top:10px; }
+  .gsection-head{
+    display:flex; align-items:center; gap:8px; padding:8px 18px 6px; position:sticky; top:0;
+    background:var(--rail); z-index:1;
+  }
+  .gsection-dot{ width:8px; height:8px; border-radius:50%; flex:none; }
+  .gsection-title{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--body); flex:1; }
+  .gsection-count{ font-family:var(--mono); font-size:10px; color:var(--faint); }
+
+  .glist-item{
+    display:flex; align-items:baseline; gap:9px; width:100%; text-align:left;
+    padding:7px 18px 7px 30px; background:transparent; border:0; cursor:pointer;
+    color:var(--body); border-left:2px solid transparent;
+  }
+  .glist-item:hover{ background:var(--hover) }
+  .glist-item[data-active="true"]{ background:var(--plate); border-left-color:var(--ink); color:var(--ink); }
+  .glist-num{ font-family:var(--mono); font-size:11px; color:var(--faint); flex:none; min-width:40px; }
+  .glist-item[data-active="true"] .glist-num{ color:inherit }
+  .glist-title{ font-size:12.5px; flex:1; }
+  .glist-mark{ font-size:9px; width:14px; text-align:center; flex:none; }
+
+  .rail-foot{ border-top:1px solid var(--rule-soft); padding:12px 18px; font-size:10.5px; color:var(--muted); display:flex; justify-content:space-between; }
+
+  /* ---------- MAIN ---------- */
+  .main{ overflow-y:auto; min-height:0; background:var(--paper); }
+  .topbar{
+    position:sticky; top:0; z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);
+    display:flex; align-items:center; gap:12px; padding:14px 34px;
+  }
+  .menu-btn{ display:none; border:1px solid var(--rule-firm); background:var(--plate); border-radius:var(--radius); padding:6px 8px; cursor:pointer; align-items:center; }
+  .crumb{ font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:var(--muted); }
+  .crumb b{ color:var(--ink); font-weight:500; }
+  .topbar-spacer{ flex:1 }
+  .theme-note{ font-size:10px; color:var(--faint); letter-spacing:.06em; }
+
+  .view{ max-width:760px; margin:0 auto; padding:40px 34px 90px; }
+
+  /* -- detail card -- */
+  .tagrow{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .tag{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+    padding:4px 10px; border-radius:20px; border:1px solid transparent;
+  }
+  .tag.outline{ background:transparent; border-color:var(--rule-firm); color:var(--muted); }
+  .tag.changed{ background:var(--changed-bg); color:var(--changed); border-color:var(--changed); }
+
+  .g-title{ font-size:clamp(22px,3.4vw,30px); margin:2px 0 20px; }
+
+  .official{
+    border-left:3px solid var(--rule-firm); background:var(--plate); padding:16px 18px;
+    font-family:var(--mono); font-size:13px; line-height:1.72; color:var(--prose2); margin-bottom:26px;
+  }
+  .official b{ display:block; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); margin-bottom:8px; font-weight:500;}
+
+  .block{ margin-bottom:26px; }
+  .block h3{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; font-weight:600; }
+  .block p{ font-size:14.5px; line-height:1.75; color:var(--body); margin:0; max-width:64ch;}
+
+  .mnemonic{
+    border:1px dashed var(--rule-firm); border-radius:var(--radius); padding:14px 16px;
+    background:transparent;
+  }
+  .mnemonic h3{ color: var(--accent, var(--muted)); }
+
+  .example{ border-radius:var(--radius); background:var(--plate); border:1px solid var(--rule); padding:14px 16px; }
+
+  .navpair{ display:flex; justify-content:space-between; gap:14px; margin-top:40px; padding-top:20px; border-top:1px solid var(--rule); }
+  .navbtn{
+    flex:1; text-align:left; background:transparent; border:1px solid var(--rule); border-radius:var(--radius);
+    padding:12px 14px; cursor:pointer; color:var(--body); font-family:var(--mono);
+  }
+  .navbtn:hover{ border-color:var(--faint) }
+  .navbtn small{ display:block; font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); margin-bottom:4px;}
+  .navbtn.right{ text-align:right }
+
+  /* -- drill mode -- */
+  .drill-card{
+    border:1px solid var(--rule-firm); border-radius:var(--radius); background:var(--plate);
+    padding:34px 30px; text-align:center; margin-top:6px;
+  }
+  .drill-num{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; color:var(--muted); text-transform:uppercase; }
+  .drill-cite{ font-size:19px; font-family:var(--disp); font-weight:600; margin:14px 0 6px; }
+  .drill-reveal{ margin-top:22px; padding-top:22px; border-top:1px dashed var(--rule-firm); text-align:left; display:none; }
+  .drill-reveal[data-shown="true"]{ display:block; }
+  .drill-actions{ display:flex; gap:10px; justify-content:center; margin-top:22px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.05em; padding:9px 18px; border-radius:var(--radius);
+    border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer;
+  }
+  .btn.ghost{ background:transparent; color:var(--ink); }
+  .btn.know{ border-color:var(--business); background:var(--business); }
+  .btn.shaky{ border-color:var(--changed); background:var(--changed); }
+  .btn.miss{ border-color:var(--legal); background:var(--legal); }
+  .drill-stats{ display:flex; gap:18px; justify-content:center; margin-top:18px; font-size:11px; color:var(--muted); }
+  .drill-stats b{ color:var(--ink); font-family:var(--disp); font-size:15px; display:block; }
+
+  /* -- field notes -- */
+  .note{ border-left:3px solid var(--changed); padding:4px 0 4px 18px; margin-bottom:26px; }
+  .note-date{ font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--changed); font-family:var(--mono); }
+  .note h3{ font-size:16px; margin:6px 0 8px; }
+  .note p{ font-size:13.5px; color:var(--body); line-height:1.7; margin:0 0 8px; max-width:64ch;}
+  .note .cites{ font-size:11px; color:var(--muted); }
+
+  /* -- self audit -- */
+  .audit-grid{ display:grid; gap:16px; }
+  .afield{ border:1px solid var(--rule); border-radius:var(--radius); padding:14px 16px; background:var(--plate); }
+  .afield legend{ font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); padding:0 4px; font-weight:600;}
+  .opts{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+  .opt{ display:flex; align-items:center; gap:7px; font-size:12.5px; border:1px solid var(--rule-firm); border-radius:20px; padding:6px 12px; cursor:pointer; background:var(--paper); color: var(--body);}
+  .opt input{ accent-color: var(--ink); }
+  select.plain{
+    font-family:var(--mono); font-size:12.5px; border:1px solid var(--rule-firm); background:var(--paper);
+    color:var(--ink); padding:8px 10px; border-radius:var(--radius); margin-top:8px; width:100%;
+  }
+  .audit-out{ margin-top:28px; }
+  .flag{
+    display:flex; gap:14px; padding:14px 0; border-top:1px solid var(--rule-soft);
+  }
+  .flag:first-child{ border-top:none; }
+  .sev{ flex:none; width:66px; font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; padding-top:2px; }
+  .sev.blocker{ color:var(--legal) }
+  .sev.likely{ color:var(--changed) }
+  .sev.watch{ color:var(--muted) }
+  .flag b{ font-family:var(--disp); font-size:14px; font-weight:600; }
+  .flag p{ margin:4px 0 0; font-size:13px; color:var(--body); line-height:1.6; }
+  .flag button{ background:none;border:0;color:var(--performance);font-family:var(--mono);font-size:11px;cursor:pointer;padding:0;margin-top:6px;text-decoration:underline;}
+  .empty-audit{ color:var(--muted); font-size:13px; padding:30px 0; text-align:center; border:1px dashed var(--rule-firm); border-radius:var(--radius); }
+
+  .frontispiece{ max-width:640px; }
+  .kicker{ font-family:var(--mono); font-size:10.5px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); }
+  .lead{ font-family:var(--disp); font-size:17px; line-height:1.6; color:var(--body); margin:16px 0 0; max-width:56ch; font-weight:500;}
+  .stats{ display:flex; gap:26px; margin-top:30px; flex-wrap:wrap; }
+  .stat b{ display:block; font-family:var(--disp); font-size:24px; color:var(--ink); }
+  .stat span{ font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .quicklinks{ display:flex; gap:10px; margin-top:32px; flex-wrap:wrap; }
+  .quicklink{ border:1px solid var(--rule-firm); border-radius:var(--radius); padding:10px 14px; cursor:pointer; background:var(--plate); font-family:var(--mono); font-size:11.5px; color:var(--body); }
+  .quicklink:hover{ border-color:var(--faint) }
+
+  mark{ background: var(--changed-bg); color:inherit; padding:0 2px; border-radius:2px;}
+
+  /* -- case files -- */
+  .case-search{ display:flex; align-items:center; gap:8px; border:1px solid var(--rule-firm); background:var(--plate); padding:9px 12px; border-radius:var(--radius); margin-bottom:22px; max-width:440px;}
+  .case-search input{ border:0; outline:0; background:transparent; color:var(--ink); font-family:var(--mono); font-size:12.5px; width:100%;}
+  .case-list{ display:grid; gap:10px; margin-bottom:36px;}
+  .case-row{
+    display:flex; align-items:center; gap:14px; border:1px solid var(--rule); border-radius:var(--radius);
+    background:var(--plate); padding:14px 16px; cursor:pointer; text-align:left; width:100%;
+  }
+  .case-row:hover{ border-color:var(--faint) }
+  .case-status{ flex:none; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; padding:4px 9px; border-radius:20px; }
+  .case-status.removed{ background:var(--legal-bg); color:var(--legal); }
+  .case-status.reinstated{ background:var(--business-bg); color:var(--business); }
+  .case-status.approved{ background:var(--performance-bg); color:var(--performance); }
+  .case-status.custom{ background:var(--design-bg); color:var(--design); }
+  .case-row-main{ flex:1; min-width:0; }
+  .case-row-main b{ font-family:var(--disp); font-size:14.5px; font-weight:600; }
+  .case-row-main span{ display:block; font-size:11.5px; color:var(--muted); margin-top:2px; }
+  .case-row-arrow{ flex:none; color:var(--faint); }
+  .new-case-btn{
+    display:inline-flex; align-items:center; gap:8px; border:1px dashed var(--rule-firm); border-radius:var(--radius);
+    background:transparent; color:var(--body); padding:12px 16px; cursor:pointer; font-family:var(--mono); font-size:12.5px; width:100%; text-align:left; margin-bottom:28px;
+  }
+  .new-case-btn:hover{ border-color:var(--faint); color:var(--ink); }
+
+  .case-meta-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--rule); border:1px solid var(--rule); margin-bottom:26px; border-radius:var(--radius); overflow:hidden;}
+  .case-meta-cell{ background:var(--plate); padding:12px 14px; }
+  .case-meta-cell label{ display:block; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-bottom:5px;}
+  .case-meta-cell div{ font-size:13px; color:var(--ink); }
+
+  .timeline{ margin-bottom:26px; }
+  .tl-item{ display:flex; gap:16px; padding-bottom:18px; position:relative; padding-left:18px; border-left:1px solid var(--rule-firm); margin-left:4px;}
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{ content:''; position:absolute; left:-4.5px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--accent-current, var(--ink)); }
+  .tl-date{ flex:none; width:96px; font-family:var(--mono); font-size:10.5px; color:var(--muted); }
+  .tl-event{ font-size:13.5px; color:var(--body); line-height:1.65; }
+
+  .impl-list{ display:grid; gap:8px; margin-bottom:26px; }
+  .impl-row{ display:flex; gap:12px; align-items:baseline; border:1px solid var(--rule); border-radius:var(--radius); padding:10px 14px; background:var(--plate); cursor:pointer; }
+  .impl-row:hover{ border-color:var(--faint) }
+  .impl-num{ font-family:var(--disp); font-weight:600; font-size:13.5px; flex:none; }
+  .impl-why{ font-size:12.5px; color:var(--body); }
+
+  .sources-line{ font-size:11px; color:var(--muted); border-top:1px solid var(--rule-soft); padding-top:14px; margin-top:8px;}
+
+  .cform{ display:grid; gap:16px; max-width:600px; }
+  .cform label.flabel{ display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:7px; font-weight:600;}
+  .cform input[type="text"], .cform textarea{
+    width:100%; font-family:var(--mono); font-size:13px; border:1px solid var(--rule-firm); background:var(--plate);
+    color:var(--ink); padding:10px 12px; border-radius:var(--radius); resize:vertical;
+  }
+  .cform textarea{ min-height:72px; line-height:1.6; }
+  .cform .opts{ margin-top:0; }
+  .case-empty{ color:var(--muted); font-size:13px; padding:40px 0; text-align:center; border:1px dashed var(--rule-firm); border-radius:var(--radius); margin-bottom:20px;}
+  .honest-note{ font-size:11.5px; color:var(--muted); line-height:1.7; border-left:2px solid var(--rule-firm); padding-left:14px; margin:22px 0 30px; max-width:60ch;}
+</style>
+
+<div class="app">
+  <div class="rail-scrim" id="scrim"></div>
+  <nav class="rail" id="rail">
+    <div class="rail-head">
+      <a class="rail-back" href="/">← App Review, a field guide</a>
+      <div class="brand">GUIDELINE TUTOR</div>
+      <div class="brand-sub">reviewer's reference · v2026</div>
+    </div>
+    <div class="search-wrap">
+      <div class="search">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search" type="text" placeholder="Search guidelines, e.g. &quot;age verification&quot;" autocomplete="off" />
+      </div>
+      <div class="search-count" id="searchCount"></div>
+    </div>
+    <div class="modepills">
+      <button class="modepill" data-view="guide" data-on="true">Guide</button>
+      <button class="modepill" data-view="cases">Case Files</button>
+      <button class="modepill" data-view="notes">Field Notes</button>
+      <button class="modepill" data-view="audit">Self-Audit</button>
+      <button class="modepill" data-view="drill">Drill</button>
+      <button class="modepill" data-view="lookup">App Lookup</button>
+    </div>
+    <div class="pillrow" id="sectionPills"></div>
+    <div class="glist" id="glist"></div>
+    <div class="rail-foot">
+      <span id="masteryFoot">0 drilled</span>
+      <span id="totalFoot"></span>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <div class="crumb" id="crumb">Guideline Tutor</div>
+      <div class="topbar-spacer"></div>
+      <div class="theme-note" id="topbarNote"></div>
+    </div>
+    <div class="view" id="view"></div>
+  </main>
+</div>
+
+<script>
+(function(){
+
+/* ============================================================
+   CONTENT — sourced from developer.apple.com/app-store/review/guidelines
+   fetched 2026-08-07. Grouped at the numbered-heading level; lettered
+   sub-points folded into the parent card's official text.
+   ============================================================ */
+
+var SECTIONS = [
+  { id:'safety', title:'1 · Safety', accent:'var(--safety)', bg:'var(--safety-bg)',
+    governing:'Before anything else: can this app hurt, deceive, or expose someone? Safety is asked first because every other question assumes the app is not actively dangerous.',
+    mnemonic:'The seven flavors of 1.1 all answer "who gets hurt and how": people (defamed), bodies (violence), weapons, sex, faith, truth (fake info), and tragedy (profiteering off current events). Memorize it as a newspaper editor\'s spike-list, not seven separate rules.' },
+  { id:'performance', title:'2 · Performance', accent:'var(--performance)', bg:'var(--performance-bg)',
+    governing:'Does the app actually work, and does the listing tell the truth about what it does? Performance is the largest section because most rejections live here — it is process, not judgment.',
+    mnemonic:'Split 2.x into three buckets: 2.1–2.2 (is the build finished and real), 2.3 (does the listing match the app), 2.4–2.5 (does the app stay inside its lane — hardware, OS, Apple\'s frameworks). Most rejections are bucket two.' },
+  { id:'business', title:'3 · Business', accent:'var(--business)', bg:'var(--business-bg)',
+    governing:'One governing rule underneath all of 3.1: if the thing being unlocked is consumed inside the app, it goes through In-App Purchase; if it\'s a physical good, a real person\'s time, or already-owned content, it can use another payment method. Nearly every subsection is either restating or exempting from that line.',
+    mnemonic:'Ask "does the value leave the phone?" — a coach\'s hour, a pizza, a magazine you already bought: yes, IAP-exempt. A game level, a filter pack, a subscription to app content: no, must be IAP.' },
+  { id:'design', title:'4 · Design', accent:'var(--design)', bg:'var(--design-bg)',
+    governing:'Is this a real, distinct app, and does it respect the platforms and services it borrows from (Apple\'s own frameworks, other developers\' work)? Design is about substance and good citizenship, not aesthetics.',
+    mnemonic:'4.1–4.3 = "is this actually its own app" (not a copy, not a bare wrapper, not a template). 4.4–4.10 = "is it a good guest in Apple\'s house" (extensions, Music, Push, Siri, Login, Pay all borrow Apple plumbing — use it as documented, don\'t bend it.)' },
+  { id:'legal', title:'5 · Legal', accent:'var(--legal)', bg:'var(--legal-bg)',
+    governing:'The compliance floor: privacy, IP, gambling law. This is where "current guideline fluency" decays fastest post-employment — 5.1 (Privacy) has been rewritten by regulation four separate times since 2020.',
+    mnemonic:'5.1 Privacy has a lifecycle: ask (consent) → take only what\'s needed (minimize) → don\'t repurpose or leak (use & sharing) → let people leave (delete). Every 5.1.x subsection is one stage of that lifecycle applied to a specific data type.' }
+];
+
+var G = [];
+function add(sec, num, title, official, explain, example, mnemonic, changed){
+  G.push({sec:sec, num:num, title:title, official:official, explain:explain, example:example, mnemonic:mnemonic||null, changed:!!changed,
+    id: 'g-'+num.replace(/[^\w]/g,'-')});
+}
+
+/* ---------------- 1. SAFETY ---------------- */
+add('safety','1.1','Objectionable Content',
+  'No content that is offensive, insensitive, upsetting, disgusting, or in exceptionally poor taste — spanning defamation/hate (1.1.1), realistic violence or abuse (1.1.2), weapons that encourage illegal or reckless use (1.1.3), pornography or "hookup"/prostitution facilitation (1.1.4), inflammatory religious commentary (1.1.5), false info or trick features like fake location trackers (1.1.6), and profiting off current tragedies (1.1.7).',
+  'This is the "would a reasonable person be disgusted or endangered" filter. It is read broadly on purpose — a reviewer does not need a precise policy citation to reject something that is obviously in bad taste.',
+  'A "prank call" app that lets users spoof caller ID to anonymously harass someone gets rejected under 1.1.6, even if the listing says "for entertainment purposes only." That disclaimer never overcomes the underlying function.');
+
+add('safety','1.2','User-Generated Content',
+  'Apps with UGC need: a filter for objectionable material, a report mechanism with timely response, the ability to block abusive users, and published developer contact info. Apps that end up primarily used for anonymous chat, porn, or bullying don\'t belong on the Store.',
+  'Apple doesn\'t pre-screen every user post — it screens whether *your app* has the machinery to police itself. No moderation tooling reads as "you don\'t control your own product."',
+  'A group-chat app with no report/block button and no visible way to email the developer is a same-week rejection even if the app itself is well-built — the missing moderation layer is the violation, not any specific post.');
+
+add('safety','1.2.1','Creator Content',
+  'Apps built around a specific community of "creators" must let users identify content that exceeds the app\'s age rating, and gate underage access to it using verified or declared age.',
+  'This is the seam between UGC moderation (1.2) and age gating (1.4/5.1.4) — relevant whenever creators, not the app itself, are the source of mature material.',
+  'A video-sharing app where independent creators post 17+ content needs an age-gate on that content specifically, not just an overall 17+ App Store rating on the app.');
+
+add('safety','1.3','Kids Category',
+  'Apps in the Kids Category: focus on younger users, no links out or purchase prompts outside a parental gate, comply with children\'s privacy law, no PII or device info sent to third parties, and (with narrow exceptions) no third-party analytics or ads.',
+  'The Kids Category is a stricter world than "an app kids might use" — it is a specific opt-in with its own rulebook, separate from the general age-rating system in 2.3.6/2.3.8.',
+  'A drawing app in the Kids Category that embeds a third-party ad SDK without the documented human-reviewed-creative exception gets pulled from the category regardless of how the ads are targeted.');
+
+add('safety','1.4','Physical Harm',
+  'Apps that risk physical harm can be rejected outright. Medical apps (1.4.1) face extra scrutiny and can\'t claim to take vitals from bare device sensors; drug-dosage calculators (1.4.2) must come from a credentialed source; apps can\'t encourage tobacco/vape/drug/excess-alcohol use by anyone, and never by minors (1.4.3); DUI-checkpoint apps may only show law-enforcement-published checkpoints (1.4.4); and no app may urge risky bets, challenges, or device misuse (1.4.5).',
+  'This is the section where "we\'re not liable, check our disclaimer" carries zero weight — Apple treats real-world physical risk as a hard line, not a judgment call.',
+  '1.4.1 is the one to know cold if you touch health apps: an app claiming to measure blood oxygen using only the camera and a formula, with no cleared hardware sensor, is rejected regardless of how good the algorithm is.');
+
+add('safety','1.5','Developer Information',
+  'Apps need an easy, accurate way to contact the developer — especially important for classroom apps — and wallet passes need valid issuer contact info signed with a dedicated certificate.',
+  'Small, easy to overlook, and a common same-day-fixable rejection reason: a broken support URL or missing contact email.',
+  'Support link in App Store Connect metadata points to a parked domain — flagged even though the app itself works fine.');
+
+add('safety','1.6','Data Security',
+  'Apps must implement appropriate security measures so user information isn\'t exposed to unauthorized access or disclosure.',
+  'Sits next to Privacy (5.1) but is about the technical handling of data (encryption, storage, transmission) rather than what you\'re allowed to collect.',
+  'An app storing user passwords in plaintext in local storage, discoverable via a basic device inspection, is a 1.6 issue independent of what the privacy policy says.');
+
+add('safety','1.7','Reporting Criminal Activity',
+  'Apps for reporting alleged criminal activity must involve local law enforcement, and can only be offered where that law-enforcement relationship is actually active.',
+  'A narrow, specific carve-out — mostly relevant to neighborhood-watch or tip-line style apps.',
+  'A "report a crime" app expanding into a country where it has no actual law-enforcement partnership gets geo-restricted or rejected for that region.');
+
+/* ---------------- 2. PERFORMANCE ---------------- */
+add('performance','2.1','App Completeness',
+  'Submissions must be final, fully functional, on-device-tested builds with complete metadata and working demo account credentials (or an in-app demo mode, pre-approved by Apple, if a real account can\'t be provided). In-app purchases must be visible and functional for the reviewer. As of 2026, this is also where the tightened "Information Needed" bundle lands.',
+  'The single most common reason an app doesn\'t even get a real look: the reviewer can\'t get past the sign-in wall because the demo account in the notes doesn\'t work, or was never provided.',
+  '"We were unable to review your app as it crashed on launch" very often does not mean it crashed — it means the reviewer hit a login screen with no working credentials and nothing usable ever appeared. The fix is a live demo account and a note on exactly where to enter it, not a stability pass.',
+  null, true);
+
+add('performance','2.2','Beta Testing',
+  'Demos, betas, and trials don\'t belong on the App Store — use TestFlight. Beta apps must still comply with the guidelines, can\'t be given to testers as compensation, and significant updates need TestFlight review before wider distribution.',
+  'A reminder that "App Store" and "TestFlight" are two separate distribution surfaces with two separate rulebooks — don\'t submit a pre-release build to the public Store.',
+  'A studio submits a "preview build, more features coming soon" to the Store instead of TestFlight — rejected on 2.2 regardless of build quality.');
+
+add('performance','2.3','Accurate Metadata',
+  'Everything the customer sees before downloading — description, screenshots, previews, category, age rating, name, keywords, "What\'s New" — has to accurately and currently reflect the actual app. Covers 13 sub-rules: no hidden/undocumented features (2.3.1), clear IAP disclosure (2.3.2), real in-use screenshots not title art (2.3.3), real-footage previews (2.3.4), correct category (2.3.5), honest age rating (2.3.6), no keyword-stuffing (2.3.7), all-audience-safe metadata images (2.3.8), rights to all shown material (2.3.9), no other-platform branding (2.3.10), pre-order builds that match what ships (2.3.11), a real changelog (2.3.12), and accurate in-app-event listings (2.3.13).',
+  'This is the largest single rule cluster because it\'s the one place customers form an expectation before they\'ve used the app at all — a mismatch here is read as deception even when unintentional.',
+  'Screenshots show a "Pro" feature set that isn\'t actually unlocked without a separate, undisclosed purchase — flagged under 2.3.2 even if the base app works exactly as shown.');
+
+add('performance','2.4','Hardware Compatibility',
+  'iPhone apps should run on iPad where feasible (2.4.1); apps must be power-efficient and never risk device damage — no crypto mining, no encouraging charging-under-a-pillow (2.4.2); Apple TV apps need to work with just the Siri remote (2.4.3); apps can\'t push users to change unrelated system settings like disabling Wi-Fi (2.4.4); and Mac App Store apps have nine additional sandboxing/packaging rules (2.4.5).',
+  'Mostly about respecting the device as shared, persistent hardware the user owns beyond just your app session.',
+  'A game that runs a background process to mine cryptocurrency while charging is a 2.4.2 rejection independent of anything in its actual gameplay.');
+
+add('performance','2.5','Software Requirements',
+  'The technical boundary of what an app may touch: public APIs only, on a currently shipping OS (2.5.1); self-contained, no downloading/executing new code (2.5.2); no malware or harmful payloads (2.5.3); background execution only for its stated purpose (2.5.4); IPv6 support (2.5.5); WebKit for browsing (2.5.6); no faked desktop/home environments (2.5.8); no disabling hardware switches (2.5.9); disciplined use of SiriKit/Shortcuts (2.5.11), CallKit spam-blocking (2.5.12), FaceID-grade authentication (2.5.13), explicit consent + visible indicator before recording mic/camera/screen (2.5.14), Files app integration (2.5.15), scoped widgets/extensions (2.5.16), certified Matter support (2.5.17), and tightly scoped, age-appropriate advertising (2.5.18).',
+  'The "stay inside your sandbox" section — almost every item is a variation of "use the framework Apple built for this, the way it was documented, and don\'t reach outside your own container."',
+  '2.5.14 is the one to know for any app touching audio: recording without an explicit consent prompt and a visible "recording" indicator is a rejection even if the recording itself is never misused — the missing indicator is the violation.');
+
+/* ---------------- 3. BUSINESS ---------------- */
+add('business','3.1.1','In-App Purchase',
+  'Anything unlocking features, subscriptions, in-game currency, levels, or premium content must go through In-App Purchase — no license keys, QR-code unlocks, or crypto workarounds. Consumable credits can\'t expire without a restore mechanism; loot-box odds must be disclosed before purchase.',
+  'The default rule before any of the 3.1.3 exemptions apply: digital, in-app, consumed-in-app = IAP, full stop.',
+  'A subscription app that sells "tokens" redeemable for premium features via a QR code scanned from a website, bypassing IAP entirely, is a 3.1.1 rejection even though the tokens are digital and consumed in-app — that\'s exactly the workaround the rule targets.');
+
+add('business','3.1.1(a)','Link to Other Purchase Methods',
+  'In specific regions, apps can use the StoreKit External Purchase Link Entitlement to link out to a website mentioning other ways to buy, including price comparisons. Music streaming apps have a parallel entitlement. Outside the US, metadata still can\'t include buttons/links driving non-IAP purchases beyond what the entitlement allows.',
+  'A narrow, regionally-gated exception born from regulatory pressure (EU/Japan/Korea rulings) — don\'t assume it applies in the US the same way it does in the EU.',
+  'A reader app adds an "manage your subscription on our website" link assuming it works everywhere, when the entitlement it relies on is only approved for specific storefronts.');
+
+add('business','3.1.2','Subscriptions',
+  'Auto-renewable subscriptions are allowed in any category if they deliver ongoing value (new content, cloud service, continually updated media) with at least a 7-day period, working across the user\'s devices. Covers upgrade/downgrade UX (3.1.2b) and requiring clear pre-purchase disclosure of exactly what\'s included, cost, and renewal terms (3.1.2c).',
+  'The test is "ongoing value," not "recurring charge" — a subscription wrapped around a static, one-time feature set reads as a scam pattern even if it\'s technically implemented via IAP.',
+  'Converting a previously "one-time full unlock" app to subscription-only, and cutting off features existing paid users already had, violates 3.1.2 — legacy purchasers must keep their access.');
+
+add('business','3.1.3','Other Purchase Methods (exemptions)',
+  'Non-IAP payment is allowed for: (a) Reader apps re-accessing already-purchased magazines/books/audio/video, (b) multiplatform services where the purchase happened elsewhere, (c) enterprise/B2B sales to organizations, (d) real-time person-to-person services like tutoring or medical consults, (e) physical goods and services consumed outside the app, (f) free companion apps to a paid web tool, and (g) ad-campaign management tools that don\'t display ads themselves.',
+  'This is the exception list to the 3.1.1 default rule — every item here shares one trait: the value was either purchased outside the app already, or is consumed in the physical/real-time world, not inside the app.',
+  'A tutoring-marketplace app charging for live 1:1 video sessions can use Stripe directly (3.1.3d) — but the same app selling a bundle of pre-recorded lesson videos to watch in-app would need IAP for that part, since pre-recorded content is consumed inside the app.');
+
+add('business','3.1.4','Hardware-Specific Content',
+  'Features tied to owned hardware (an astronomy app unlocking telescope-sync features, a toy unlocking companion-app content) may skip IAP — but can\'t require buying an unrelated product or engaging in marketing activity to unlock.',
+  'A narrow exemption for physical-product companion apps — check that the unlock is genuinely hardware-gated, not just dressed up that way.',
+  'A smart-toy app unlocking extra characters only after the user "shares this app with 3 friends" fails 3.1.4 even though a real toy purchase is also involved — the marketing-activity requirement is the problem.');
+
+add('business','3.1.5','Cryptocurrencies',
+  'Wallets are fine for org-enrolled developers (i); on-device mining is banned, cloud-based is fine (ii); exchanges need proper licensing per region (iii); ICOs and crypto-securities require being an established, regulated financial institution (iv); and crypto can never be offered as payment for completing tasks like downloads or social posts (v).',
+  'Apple treats crypto less as a payment rail and more as a regulated financial product — the licensing bar is the same as traditional finance apps.',
+  'A casual app rewarding users with a small crypto payout for watching ads or inviting friends is a straightforward 3.1.5(v) rejection.');
+
+add('business','3.2.1','Other Business Models — Acceptable',
+  'Explicitly fine: promoting your own other apps, curating third-party app collections with real editorial value (not a bare storefront), expiring only rental content, wallet passes for tickets/coupons/ID, free compliant insurance apps, approved-nonprofit fundraising, optional person-to-person monetary gifts, and licensed financial-institution trading apps.',
+  'A useful checklist when a business model looks unusual but might still be fine — most edge cases that feel risky turn out to have an explicit carve-out here.',
+  'An approved 501(c)(3) accepting Apple Pay donations directly in its app is explicitly fine under 3.2.1(vi) — a for-profit app doing the same thing for "charity" is not, without approved-nonprofit status.');
+
+add('business','3.2.2','Other Business Models — Unacceptable',
+  'Explicitly banned: building an App-Store-like storefront inside your app, artificially inflating ad impressions, non-approved-nonprofit in-app fundraising, restricting use by location/carrier without cause, manipulating visibility/rank on a platform, binary options trading, and personal loans with APR over 36% or repayment terms under 60 days. Also: apps can\'t force a rating/review/other-app-download to unlock functionality (incentivizing is fine, forcing is not).',
+  'The mirror image of 3.2.1 — same business-model territory, but the version that crosses a line.',
+  'A game gating the final level behind "rate us 5 stars to unlock" is a 3.2.2(x) violation — offering bonus currency for an optional rating is fine, requiring it is not.');
+
+/* ---------------- 4. DESIGN ---------------- */
+add('design','4.1','Copycats',
+  'Come up with your own idea — don\'t clone a popular app with minor tweaks (a); don\'t impersonate another app or service (b); and don\'t use someone else\'s icon, brand, or product name without permission (c).',
+  'Distinct from 5.2 (Intellectual Property) — this is about product-concept originality and user confusion, not necessarily a legal IP claim.',
+  'A flashlight app using an icon nearly identical to a popular competitor\'s, in the same color and shape, gets rejected under 4.1(c) even without a trademark complaint being filed.');
+
+add('design','4.2','Minimum Functionality',
+  'An app needs to be more than a repackaged website — real features, content, and UI that justify being an app at all. ARKit apps need genuine interactive AR, not a static model drop (4.2.1). Apps can\'t be pure marketing/ad wrappers or link collections (4.2.2). Apps must work standalone, without requiring another app install (4.2.3). Commercialized "app generator" template submissions are rejected unless the content provider submits directly (4.2.6). Remote-desktop clients have five specific compliance rules (4.2.7).',
+  'The "is this actually an app" filter — this is where thin wrappers around a website or a WebView get stopped.',
+  'A site-builder company submitting 40 near-identical template apps, one per client, each just a branded WebView, is a 4.2.6 problem — Apple wants either direct-from-client submissions or one aggregator app with a picker.');
+
+add('design','4.3','Spam',
+  'Don\'t split one app into multiple Bundle IDs for what should be a single app with variants (a) — a worldwide map app shouldn\'t become 50 city-specific submissions. Don\'t submit apps indistinguishable from an oversaturated category (flashlight, wallpaper, fortune-telling) without something meaningfully different (b).',
+  'The volume-abuse rule — less about any one app being bad, and more about App Store search being flooded with interchangeable listings.',
+  'Submitting the same quiz-game shell 15 times with different color schemes and no functional difference triggers 4.3(b), and repeated submissions risk Developer Program removal.');
+
+add('design','4.4','Extensions',
+  'Extension-hosting apps must follow Apple\'s extension programming guides and clearly disclose available extensions. Extensions themselves can\'t carry ads or IAP. Keyboard extensions (4.4.1) must actually provide keyboard input, work without full network access, and can\'t launch other apps or repurpose buttons. Safari extensions (4.4.2) can\'t claim more site access than they need or interfere with browser UI.',
+  'Extensions live inside another Apple surface (keyboard, Safari) — the rules exist to stop an extension from behaving like a second, unreviewed app.',
+  'A keyboard extension that silently logs every keystroke for "analytics" without disclosure is a severe 4.4.1 violation, independent of what the main app does.');
+
+add('design','4.5','Apple Sites and Services',
+  'Don\'t scrape Apple\'s own sites for rankings (4.5.1). MusicKit integration can\'t be paywalled or monetized indirectly (4.5.2). Don\'t abuse Game Center Player IDs, Push Notifications, or Apple emoji outside their documented purpose (4.5.3–4.5.6) — e.g. push can\'t be required for core function or used for unsolicited marketing without opt-in.',
+  'The theme across all of 4.5: Apple\'s frameworks are lent to you for a specific documented purpose, not a general-purpose toolkit to repurpose.',
+  'Sending a marketing push notification to users who never opted into promotional messages (only functional ones) is a 4.5.4 violation, regardless of how relevant the promo is.');
+
+add('design','4.7','Mini Apps, Games, Streaming, Emulators',
+  'Apps may host non-embedded software — HTML5 mini-games, streaming games, chatbots, plug-ins, retro emulators loading downloadable ROMs — but the parent app is responsible for every piece of hosted software following the guidelines, including privacy (4.7.1), no exposing native APIs without permission (4.7.2), per-instance consent for shared data (4.7.3), a discoverable index (4.7.4), and age-gating mechanisms for content above the app\'s rating (4.7.5).',
+  'This section exists because of streaming-game and mini-app platforms — the host app can\'t say "that\'s a third party\'s problem" for content it serves.',
+  'A game-streaming platform hosting a partner\'s mini-game that requests camera access without its own consent prompt is a 4.7.3 violation attributable to the host app, not just the mini-game.');
+
+add('design','4.8','Login Services',
+  'If an app offers third-party/social login (Facebook, Google, etc.) as the primary way to set up an account, it must also offer an equivalent option that only collects name/email, offers a private-email relay, and doesn\'t harvest interaction data for ads without consent — with listed exceptions (own account systems, enterprise/education accounts, government ID, marketplace-specific login).',
+  'Effectively mandates an Apple-Sign-In-equivalent privacy floor whenever any social login is offered as primary, not literally requiring Sign in with Apple by name.',
+  'An app offering only "Continue with Google" as the sole account creation path, with no minimal-data alternative, is a 4.8 rejection even if Sign in with Apple specifically isn\'t implemented — any equivalent minimal-data option satisfies it.');
+
+add('design','4.9','Apple Pay',
+  'Apps using Apple Pay must disclose all material purchase info upfront and follow Apple Pay branding/UI guidelines. Recurring-payment apps must clearly state renewal term, per-period charges, and how to cancel.',
+  'A UI/disclosure rule layered on top of whatever payment rules (3.1.x) already apply to the purchase itself.',
+  'A subscription checkout using the Apple Pay button but never stating the renewal cadence or cancellation method on that screen fails 4.9 even if the terms are buried elsewhere in the app.');
+
+add('design','4.10','Monetizing Built-In Capabilities',
+  'Apps can\'t charge for access to hardware or OS capabilities that are just... there — push notifications, the camera, the gyroscope — or for Apple services like iCloud storage or Screen Time APIs.',
+  'A short, absolute rule: device and OS capabilities aren\'t your product to sell.',
+  'An app charging a "premium" fee specifically to "unlock camera access" (rather than a genuine feature built using the camera) is a clean 4.10 rejection.');
+
+/* ---------------- 5. LEGAL ---------------- */
+add('legal','5.1.1','Data Collection & Storage (Consent)',
+  'Every app needs an accessible, explicit privacy policy covering what\'s collected, how, and why (i). Consent is required even for anonymous data, must be genuinely revocable, and paid features can\'t be conditioned on unrelated data access (ii). Only request data your core function actually needs — prefer the share sheet or a picker over blanket access (iii). Respect a "no" — offer an alternative path, don\'t re-prompt or punish decline (iv). No-login-required apps must stay login-free for core function; social features aren\'t "core" enough to force a login (v). Regulated-industry apps (banking, healthcare, gambling, crypto) must be submitted by the licensed legal entity, not an individual (ix).',
+  'This is the front door of the privacy lifecycle — everything downstream (5.1.2 use, 5.1.3 health, 5.1.4 kids) assumes consent was captured honestly here first.',
+  'A note-taking app that requires microphone access before letting a user type a single note — with no path to decline and still use the core feature — fails 5.1.1(iv) even if voice notes are a genuinely optional feature.');
+
+add('legal','5.1.2','Data Use & Sharing',
+  'Data collected for one purpose can\'t quietly be repurposed without new consent (ii). Real-time device tracking across apps/websites is only allowed through the App Tracking Transparency framework, with explicit permission (i) — this is the post-2021 rule that didn\'t exist before ATT shipped. Apps can\'t covertly profile users or reconstruct identity from "anonymous" data (iii), and can\'t harvest Contacts/Photos to build a marketing database (iv–v).',
+  'ATT (5.1.2(i)) is the single biggest privacy-rule change since 2016 — cross-app tracking that used to be an IDFA API call is now a mandatory, user-facing permission prompt with a documented purpose string.',
+  'An app that gets camera-roll access for a "photo backup" feature, then quietly uses image metadata to build ad-targeting profiles, violates both 5.1.2(ii) — repurposed data — and likely 5.1.2(iii).');
+
+add('legal','5.1.3','Health and Health Research',
+  'Health/fitness/medical data gets extra rules: no third-party use of HealthKit-adjacent data for ads or marketing (i); no writing false health data, and no personal health info stored in iCloud (ii); health-research apps need real informed consent covering purpose, risks, confidentiality, and withdrawal (iii); and independent ethics-board approval, provided on request (iv).',
+  'A stricter overlay on top of the general 5.1.1/5.1.2 rules, specifically because health data carries real-world stakes if it leaks or is misused.',
+  'A fitness app selling anonymized HealthKit step-count data to a third-party ad network — even fully anonymized — violates 5.1.3(i), which bars third-party use for advertising outright, not just identified use.');
+
+add('legal','5.1.4','Kids',
+  'Careful handling of any data from children, reviewed against COPPA, GDPR, and similar law (a). Apps only ask for birthdate/parental contact when a statute requires it, and still need to work/entertain without oversharing. Kids-intended apps generally exclude third-party analytics/ads, with narrow documented exceptions (b). "For Kids"/"For Children" language is reserved for the actual Kids Category.',
+  'This is the section that has expanded the most since 2025 — the Kids Category rule itself is old, but it now sits underneath a much bigger stack of external age-verification law (see Field Notes).',
+  'An app outside the Kids Category using "Fun learning for kids!" in its subtitle to attract downloads, while not actually enrolled in the Kids Category, is a 2.3.8/5.1.4(b) issue even if the app content itself is genuinely kid-appropriate.');
+
+add('legal','5.1.5','Location Services',
+  'Location access only when directly relevant to a real feature — never for emergency services or autonomous vehicle/aircraft control (with narrow toy/drone exceptions). Consent and a clear purpose string required before collecting or transmitting location.',
+  'A narrower, purpose-bound sibling to the general 5.1.1(iii) data-minimization rule, specifically for location.',
+  'A weather app requesting "Always" location access instead of "While Using" for a feature that only needs current position when the app is open gets flagged for over-scoped access.');
+
+add('legal','5.2.1','Intellectual Property — General',
+  'Only use self-created or properly licensed material — no unauthorized trademarks, copyrighted work, or patents, and no misleading copycat naming or metadata.',
+  'The baseline IP rule everything else in 5.2 elaborates on.',
+  'Using a well-known brand\'s logo in an unofficial "companion app" icon without permission is a straightforward 5.2.1 rejection, separate from any trademark lawsuit that might follow.');
+
+add('legal','5.2.3','Audio/Video Downloading',
+  'Apps can\'t facilitate illegal file-sharing, or save/convert/download media from platforms like Apple Music, YouTube, SoundCloud, or Vimeo without explicit authorization — even streaming may violate a platform\'s Terms.',
+  'A common trap for utility apps: "download this video for offline viewing" is a Terms-of-Service and copyright problem even when the underlying tech is trivial to build.',
+  'A "save video" utility that lets users download YouTube clips directly to their camera roll is a 5.2.3 rejection regardless of how well the app itself is built.');
+
+add('legal','5.2.4','Apple Endorsements',
+  'Don\'t imply Apple made, supplied, or endorses your app (a). "Editor\'s Choice" badging is applied by Apple only, never self-claimed (b).',
+  'Guards against implied-partnership marketing — a subtle but real trust issue for customers.',
+  'App Store screenshots or a landing page saying "Apple Recommended" without an actual Editor\'s Choice badge is a 5.2.4(a) violation.');
+
+add('legal','5.2.5','Apple Products',
+  'No confusingly-similar clones of Apple\'s own apps or interfaces (Finder, Messages, App Store), no Apple emoji in extensions/keyboards/stickers, no repurposed iTunes preview clips as generic background music, and Activity-ring-style visuals can\'t imitate Apple\'s actual ring metrics.',
+  'Distinct from 4.1 (copying other developers) — this specifically protects Apple\'s own product surface.',
+  'A fitness app rendering its own three-ring progress visual that\'s visually near-identical to Apple\'s Move/Exercise/Stand rings, without following the Human Interface Guidelines\' differentiation rules, gets flagged under 5.2.5.');
+
+add('legal','5.3','Gaming, Gambling, Lotteries',
+  'The most heavily regulated category. Sweepstakes must be sponsored by the developer, not implying Apple sponsorship (5.3.1–5.3.2). In-app purchase currency can never be used for real-money gaming (5.3.3). Real-money gaming, sports betting, and lotteries must be free apps, licensed in every jurisdiction offered, and geo-restricted to legal markets (5.3.4).',
+  'Expect extra review time here by design — Apple explicitly tells developers to budget for it, because licensing verification isn\'t instant.',
+  'A poker app offering "coins" purchasable via IAP that can then be cashed out for real money is a 5.3.3 violation — IAP currency crossing into real-money-gaming territory is exactly what\'s barred.');
+
+add('legal','5.4','Entitlements',
+  'Certain features and technologies (CarPlay Audio, Hypervisor, Privileged File Operations) aren\'t generally available — they require Apple to grant a specific, limited-use entitlement first.',
+  'A reminder that some rejections aren\'t about guideline compliance at all — they\'re about a missing entitlement grant, a separate approval process entirely.',
+  'A submission using a Hypervisor API without the corresponding entitlement approved in advance fails at a technical/provisioning level, before a human reviewer even evaluates guideline compliance.');
+
+/* ============================================================
+   FIELD NOTES — what changed since a 2016-era reviewer's baseline.
+   For a working consultant to keep current, not exhaustive history.
+   ============================================================ */
+var NOTES = [
+  { date:'2026 (ongoing)', title:'Guideline 2.1 tightened — the "Information Needed" bundle', cites:['2.1'],
+    body:'A wave of AI-generated app submissions pushed Apple to formalize what a first-reply-approval submission needs: a screen recording, a plain-language purpose statement, working test credentials, a full list of external services/SDKs used, region-specific notes, and any regulatory clearance documentation. Getting this bundle right on the first submission, not the first rejection reply, is now the difference between a same-week approval and a multi-week back-and-forth.' },
+  { date:'Feb 2026', title:'Declared Age Range API + expanded 18+ blocking', cites:['1.4','2.3.6','5.1.4'],
+    body:'Apple shipped a privacy-preserving Declared Age Range API (age bands, not birthdate) and now actively blocks minors from downloading 18+-rated apps in Australia, Brazil, and Singapore, with more markets rolling out. Any app whose content or audience skews toward minors should treat age-band signals as a first-class input, not an afterthought bolted onto the age-rating questionnaire.' },
+  { date:'2025', title:'State "App Store Accountability" laws — CA, LA, TX, UT', cites:['5.1.4','1.3'],
+    body:'Four US states passed statutes requiring age assurance and verifiable parental consent before a minor can download or purchase in an app, layered on top of (not replacing) COPPA. Apple\'s compliance response is store-level, but developers with a teen-skewing user base should assume parental-consent flows are now a real product requirement in these states, not just a Kids-Category concern.' },
+  { date:'2024–2025', title:'Privacy manifests + third-party SDK signatures', cites:['5.1.1','5.1.2'],
+    body:'Apps must now declare a privacy manifest and required-reason API usage, and signed third-party SDKs became part of the supply-chain integrity check. This closes a gap where an app\'s own privacy answers were honest but a bundled SDK was doing something the developer hadn\'t fully audited.' },
+  { date:'Apr 2021', title:'App Tracking Transparency (ATT) ships', cites:['5.1.2'],
+    body:'Cross-app/cross-site tracking — previously a quiet IDFA read — became a mandatory, user-facing consent prompt with a required purpose string. This is the single largest privacy-rule shift since 2016; any pre-2021 mental model of "tracking" as an invisible background capability is out of date.' },
+  { date:'Dec 2020', title:'Privacy Nutrition Labels become mandatory', cites:['5.1.1'],
+    body:'Every new submission and update must self-report a structured breakdown of data types collected and their use, displayed on the product page before download. Now cited as influencing the large majority of download decisions — treat the nutrition-label questionnaire as public-facing copy, not an internal form.' },
+  { date:'2024 (EU)', title:'Digital Markets Act reshapes EU distribution', cites:['3.1', '2.5.6'],
+    body:'In the EU, alternative app marketplaces, alternative payment processors, and (for browsers) alternative web engines became legally required options, alongside new eligibility and notarization steps outside the traditional Store review. A submission strategy that only accounts for the global guidelines can still trip on EU-specific distribution rules layered on top.' }
+];
+
+/* ============================================================
+   CASE FILES — seeded cases are real, publicly documented App Store
+   review decisions, fact-checked against news coverage 2026-08-07.
+   These are not hypotheticals; each carries its own sources line.
+   "New Case" below is a manual builder for any other app — there is
+   no live App Store lookup available to this page (see the honest
+   note in the Case Files view), so history/metadata for an arbitrary
+   app has to be entered by the reviewer, not fetched.
+   ============================================================ */
+var CASES = [
+  { id:'case-fortnite', appName:'Fortnite', developer:'Epic Games', year:'2020', status:'removed', category:'Games',
+    summary:'Epic shipped an update adding a direct-payment option that undercut Apple\'s in-app purchase cut — a deliberate, publicly-announced provocation designed to trigger removal and force a legal test case.',
+    metadata:[ {l:'Category', v:'Games'}, {l:'Business model', v:'Free-to-play, IAP currency (V-Bucks)'}, {l:'Scale at the time', v:'One of the highest-grossing mobile games'}, {l:'Trigger', v:'Sudden payment-flow change in a routine update'} ],
+    timeline:[
+      {date:'2020-08-13', event:'Epic pushes a Fortnite update adding "Epic direct payment" — V-Bucks at a discount if bought outside Apple\'s IAP, publicly framed in advance as intentional.'},
+      {date:'2020-08-13', event:'Apple removes Fortnite from the App Store same day, citing the In-App Purchase requirement.'},
+      {date:'2020-08-13', event:'Epic files an antitrust suit against Apple within hours — the update was the opening move of a planned legal case, not a product decision.'},
+      {date:'2025', event:'Epic and Apple settle the long-running dispute; new App Store rules on external purchase links trace partly back to this case.'}
+    ],
+    implicated:[ {num:'3.1.1', why:'Direct payment for in-app-consumed currency, bypassing IAP entirely — the guideline reading itself was never in dispute.'} ],
+    connect:'The guideline call was never ambiguous — 3.1.1 is unambiguous about IAP for in-app-consumed digital currency. What makes this the case every reviewer cites isn\'t the rule, it\'s the pattern: a sudden, unexplained payment-flow change shipped in a routine-looking update to an already-approved, high-profile app. That kind of change is itself a signal worth flagging before you even get to which specific rule it breaks.',
+    sources:[ {t:'CNBC, Aug 13 2020'}, {t:'9to5Mac, Aug 13 2020'} ] },
+
+  { id:'case-parler', appName:'Parler', developer:'Parler LLC', year:'2021', status:'reinstated', category:'Social Networking',
+    summary:'Given 24 hours to submit a working content-moderation plan after direct calls to violence tied to the January 6 Capitol riot were found live on the platform; removed when the plan was judged inadequate, reinstated three months later once real moderation tooling existed.',
+    metadata:[ {l:'Category', v:'Social / UGC'}, {l:'Business model', v:'Free, minimally-moderated public posting'}, {l:'Positioning', v:'Marketed explicitly as a free-speech-first alternative'}, {l:'Trigger', v:'Real-world harmful content live on the platform, not a hypothetical gap'} ],
+    timeline:[
+      {date:'2021-01-08', event:'Apple warns Parler it has 24 hours to submit an acceptable content-moderation plan.'},
+      {date:'2021-01-09', event:'Parler\'s response is judged insufficient; Apple removes the app, citing Guideline 1.2 (no adequate filter / report / block mechanism) and Guideline 1.1 findings of direct incitement content actually present on the platform.'},
+      {date:'2021-04-14', event:'Apple tells Parler its updated app, now with functioning moderation tooling, will be reinstated.'}
+    ],
+    implicated:[
+      {num:'1.2', why:'No adequate filtering, reporting, or user-blocking mechanism for a UGC app operating at real scale — the foundational failure.'},
+      {num:'1.1', why:'Specific, live instances of direct violent incitement content found on the platform, not a hypothetical risk being pre-empted.'}
+    ],
+    connect:'The case every reviewer should know cold for any app built around open or fast, low-friction posting: 1.2 is not satisfied by a written policy. Apple checked whether the filter/report/block mechanisms actually existed and worked at the moment real harmful content was live. A moderation plan on paper, with no functioning tooling behind it, does not clear 1.2 — and when the live content itself is severe enough to independently trip 1.1, that combination is what turns "fix it in your next update" into "removed today." Any app whose core loop pushes user-captured content to other people fast and by default belongs in this reference class, not just the guideline text.',
+    sources:[ {t:'9to5Mac, Jan 9 2021'}, {t:'MacRumors, Jan 9 2021'}, {t:'Techdirt, Apr 20 2021'} ] },
+
+  { id:'case-doordash', appName:'DoorDash', developer:'DoorDash, Inc.', year:'—', status:'approved', category:'Food & Drink',
+    summary:'Their first App Store release came through this reference\'s own reviewer queue and was approved. Kept deliberately thin — source is the reviewer\'s own record on the App Review field guide (appreview.atharux.com), not independently documented reporting, and no further detail is claimed beyond that.',
+    metadata:[ {l:'Category', v:'Food & Drink'}, {l:'Source', v:'Reviewer\'s own account only — not corroborated by public reporting'} ],
+    timeline:[ {date:'—', event:'First App Store submission reviewed and approved. No further detail is available to cite honestly.'} ],
+    implicated:[],
+    connect:'Included as a personal record, not a teaching case — there isn\'t enough independently-verifiable detail here to draw a "connect the dots" lesson from. Compare against Fortnite and Parler above, where every claim traces to dated, named news coverage.',
+    sources:[ {t:'Reviewer\'s own account — appreview.atharux.com'} ] }
+];
+
+/* ============================================================
+   SELF-AUDIT — deterministic rule engine, not an AI call.
+   Mirrors the review-kit rules.js pattern: yes/no context questions
+   gate a fixed rule table, output ranked blocker/likely/watch.
+   ============================================================ */
+/* Schema shared with review-kit's screenshot-driven audit engine (/review-kit/src/rules.js),
+   trimmed to what a text/metadata profile can actually support — no screen-only HIG or
+   build-completeness rules here, since neither Self-Audit nor an App Store listing can see
+   actual screens. key/label/cites stay tutor-specific (checkbox binding + citation cross-link);
+   trigger/looks_for/fix/sev match review-kit's report fields so both tools read the same way. */
+var AUDIT_RULES = [
+  { key:'minors', label:'Likely to attract or be used by minors', sev:'blocker', title:'Age assurance exposure', cites:['1.4','2.3.6','5.1.4'],
+    trigger:'App content, mechanics, or marketing skew toward or are likely to attract users under 18.',
+    looks_for:'Whether the age-rating questionnaire is answered honestly, and whether a parental-consent flow exists — this now sits under both Apple\'s Declared Age Range rollout and 2025 state Accountability Acts (CA/LA/TX/UT), not just the Kids Category.',
+    fix:'Answer the age-rating questionnaire for the content a user can actually reach, add a parental-consent flow if minors remain in scope, and drop third-party ad/analytics SDKs for that population.' },
+  { key:'mic', label:'Records microphone audio', sev:'likely', title:'Recording consent + indicator', cites:['2.5.14'],
+    trigger:'App accesses the microphone for any capture, including passive or buffered recording.',
+    looks_for:'An explicit consent prompt before recording starts, and a clearly visible indicator for the whole time the mic is active.',
+    fix:'Add a visible recording indicator (not just the OS-level dot) and require explicit consent before any capture, including background/buffered recording.' },
+  { key:'camera', label:'Records camera or screen', sev:'likely', title:'Recording consent + indicator', cites:['2.5.14'],
+    trigger:'App accesses the camera, or records the screen, for any capture.',
+    looks_for:'Same as microphone — explicit consent and a visible indicator whenever camera or screen recording is active.',
+    fix:'Add a visible indicator and explicit consent for camera and screen-recording capture alike — this rule is not mic-specific.' },
+  { key:'ugc', label:'Has user-generated content or chat', sev:'blocker', title:'UGC moderation machinery', cites:['1.2'],
+    trigger:'Users can post, comment, message, or upload content visible to others.',
+    looks_for:'All four moderation pieces together: a content filter, a report mechanism with timely response, a block-user function, and published developer contact info.',
+    fix:'Ship all four. This is checked as a set — a single missing piece (commonly the report mechanism or block function) is enough on its own to reject.' },
+  { key:'anonchat', label:'Includes anonymous or random-match chat', sev:'blocker', title:'Anonymous/Chatroulette-style pattern', cites:['1.2'],
+    trigger:'The app\'s primary use case is anonymous or random-match chat with strangers.',
+    looks_for:'Whether the app is, in practice, mostly used for Chatroulette-style anonymous matching — Apple names this pattern directly.',
+    fix:'This is close to a hard no on the Store. If anonymous matching is core to the product, expect rejection regardless of moderation quality.' },
+  { key:'health', label:'Collects or displays health/fitness data', sev:'likely', title:'Health data scrutiny', cites:['5.1.3','1.4.1'],
+    trigger:'App collects, displays, or claims to measure health or fitness data.',
+    looks_for:'Whether health data is used by third parties for advertising (not allowed even anonymized), whether any data is fabricated, and whether vital-sign claims (blood pressure, oxygen, glucose) are backed by real sensors rather than inferred from bare phone hardware.',
+    fix:'Remove third-party ad use of health data, and don\'t claim vital-sign measurement the hardware can\'t actually support.' },
+  { key:'subscription', label:'Monetizes via subscription', sev:'watch', title:'Subscription disclosure', cites:['3.1.2','4.9'],
+    trigger:'App monetizes via auto-renewing subscription.',
+    looks_for:'A pre-purchase screen stating what\'s included, price, renewal cadence, and cancellation method — checked more strictly if the checkout surfaces Apple Pay branding.',
+    fix:'Put price, period, what\'s included, and a cancellation path directly on the paywall before the buy button — not buried in settings or a linked page. Also add a visible Restore Purchases control.' },
+  { key:'iap', label:'Monetizes via in-app purchase / virtual currency', sev:'watch', title:'IAP completeness', cites:['2.1','3.1.1'],
+    trigger:'App monetizes via in-app purchase or virtual currency.',
+    looks_for:'Whether every IAP item is live, visible, and actually testable by the reviewer during the review window.',
+    fix:'Configure and test every IAP item before submitting. If one genuinely can\'t be reached during review, disclose that in the review notes rather than leaving it to be discovered.' },
+  { key:'ads', label:'Shows third-party advertising', sev:'watch', title:'Ad placement + targeting scope', cites:['2.5.18'],
+    trigger:'App shows third-party advertising.',
+    looks_for:'Ads confined to the main binary (never extensions, widgets, or App Clips), age-appropriate targeting with no sensitive-data use, and interstitials with a visible close/skip and a way to report inappropriate ads.',
+    fix:'Strip ads from extensions/widgets/App Clips entirely, and make sure every interstitial has a visible close control and an inappropriate-ad report path.' },
+  { key:'crypto', label:'Involves cryptocurrency in any form', sev:'blocker', title:'Crypto business-model check', cites:['3.1.5'],
+    trigger:'App involves cryptocurrency in any form — mining, exchange, wallet, or reward mechanism.',
+    looks_for:'On-device mining (banned outright), exchange/ICO licensing status, and whether crypto is ever offered as a reward for completing tasks like downloads or social shares (also banned).',
+    fix:'Remove on-device mining entirely. For exchanges/ICOs, confirm and document regionally-licensed financial-institution status before submitting. Never reward task completion with crypto.' },
+  { key:'sociallogin', label:'Offers social/third-party login as primary sign-in', sev:'watch', title:'Minimal-data login alternative required', cites:['4.8'],
+    trigger:'App offers Google, Facebook, or similar third-party login as a sign-in option.',
+    looks_for:'An equivalent login option that limits data collection to name and email and allows hiding the email — Sign in with Apple is the usual answer — unless a documented exception applies (own account system, enterprise, government ID).',
+    fix:'Add Sign in with Apple (or an equivalent minimal-data option) alongside the social logins, positioned no less prominently.' },
+  { key:'nologin', label:'App is designed to require no account/login', sev:'watch', title:'Login-free core function', cites:['5.1.1'],
+    trigger:'App has no feature that genuinely needs an identity, but requires account creation anyway.',
+    looks_for:'Whether account creation is truly necessary for the functionality gated behind it — social features alone usually aren\'t "core" enough to justify a forced login.',
+    fix:'Let users reach whatever doesn\'t require an identity without signing in. Gate only the features that genuinely need one.' },
+  { key:'regulated', label:'Operates in a regulated field (finance, gambling, cannabis, telehealth)', sev:'blocker', title:'Licensed-entity submission', cites:['5.1.1(ix)','5.3'],
+    trigger:'App operates in a regulated field — finance, gambling, cannabis, or telehealth.',
+    looks_for:'Whether the submitting developer account is the licensed legal entity itself, not an individual, and — for gambling/lotteries specifically — geo-restriction and free-on-the-Store status with jurisdiction-by-jurisdiction licensing verified.',
+    fix:'Submit from the licensed entity\'s own developer account. Budget extra review time — these categories get manual scrutiny and licensing verification.' },
+  { key:'ai', label:'Uses AI-generated content or an AI chat feature', sev:'likely', title:'2026 Information Needed bundle applies', cites:['2.1'],
+    trigger:'App uses AI-generated content or includes an AI chat feature.',
+    looks_for:'The tightened 2026 "Information Needed" bundle: a screen recording, a plain-language purpose statement, working test credentials, a full SDK/external-services list, and regional notes.',
+    fix:'Prepare the full bundle before first submission, not after a rejection reply — under-preparing it is the single most common avoidable first-round rejection right now.' },
+  { key:'location', label:'Requests location access', sev:'watch', title:'Location scope + purpose string', cites:['5.1.5'],
+    trigger:'App requests location access.',
+    looks_for:'Whether the access level requested ("While Using" vs "Always") matches what the feature actually needs, and whether the purpose string is specific rather than generic.',
+    fix:'Default to "While Using" unless a real feature (e.g. background geofencing) needs "Always", and write a purpose string specific to that feature.' },
+  { key:'eu', label:'Distributes in the EU', sev:'watch', title:'DMA-layer requirements', cites:['3.1','2.5.6'],
+    trigger:'App is distributed in the EU.',
+    looks_for:'DMA-layer obligations on top of the global guidelines — alternative-marketplace and payment eligibility, and notarization steps.',
+    fix:'Confirm EU-specific eligibility and notarization requirements separately from the standard review — DMA obligations are additive, not a replacement.' },
+  { key:'claims', label:'Description or marketing copy names specific integrations, AI features, or third-party services', sev:'likely', title:'Description overclaims vs. the actual build', cites:['2.3'],
+    trigger:'Store copy names third-party services, makes "AI-powered" claims, or implies hardware support the build doesn\'t actually contain.',
+    looks_for:'Whether a reviewer can reach every named feature or integration within a couple of minutes of the build actually running.',
+    fix:'Cut anything the reviewer can\'t reach in the build. If a feature is aspirational or roadmap-only, it doesn\'t belong in the live description.' },
+  { key:'agerating', label:'Content is UGC/browsing/mature-themed but the age rating reads younger than that', sev:'watch', title:'Age rating inconsistent with real content', cites:['2.3.6'],
+    trigger:'User-generated content, chat, unrestricted web views, or mature themes exist, but the age-rating questionnaire wasn\'t answered for the worst case a user can actually reach.',
+    looks_for:'Whether the declared rating matches what a user can actually browse to, not just the app\'s intended use — an in-app browser that opens the whole web raises the rating on its own.',
+    fix:'Rate for the content a user can actually reach, not just the happy path the team designed for.' },
+  { key:'webwrapper', label:'Core functionality is mostly a website wrapped in a WebView', sev:'blocker', title:'Thin wrapper around a website', cites:['4.2'],
+    trigger:'Most of the app is a WebView with little native behavior underneath it.',
+    looks_for:'Whether the app does something a bookmark on the home screen couldn\'t — native notifications, offline access, hardware integration, native navigation.',
+    fix:'Add genuine native capability the website can\'t provide on its own, or reconsider whether this should be a website instead of an app.' },
+  { key:'acctdelete', label:'Supports account creation', sev:'blocker', title:'No in-app account deletion', cites:['5.1.1(v)'],
+    trigger:'App lets a user create an account.',
+    looks_for:'A path inside the app — not an email request, not a web-only form — to delete the account and its data.',
+    fix:'Add in-app account deletion reachable from account settings, not routed off-platform.' },
+  { key:'sdk', label:'Uses analytics, crash reporting, ads, or any third-party SDK', sev:'likely', title:'Privacy nutrition label vs. actual SDK behavior', cites:['5.1.2'],
+    trigger:'Any analytics, crash-reporting, ad, or other third-party SDK is compiled into the app.',
+    looks_for:'Whether the declared App Privacy nutrition label matches what every SDK actually collects — including anything a dependency adds without the team noticing.',
+    fix:'Audit every SDK\'s actual data collection (not just its marketing docs) and declare accordingly. Undeclared SDK collection is a common, avoidable rejection.' },
+  { key:'tracking', label:'Uses advertising identifiers or cross-app/cross-site tracking', sev:'blocker', title:'Tracking without the ATT prompt', cites:['5.1.2'],
+    trigger:'App uses IDFA or any cross-app/cross-site measurement.',
+    looks_for:'Whether App Tracking Transparency is requested before any tracking begins, and whether tracking genuinely stops if the user declines.',
+    fix:'Request ATT before any tracking starts, and verify tracking actually halts on decline — not just that the prompt exists.' },
+  { key:'background', label:'Runs in the background beyond the feature that justified it (audio, location, etc.)', sev:'likely', title:'Background mode scoped too broadly', cites:['2.5.4'],
+    trigger:'App declares a background mode and keeps using it after the feature that needed it is no longer visibly active.',
+    looks_for:'Whether the background service maps to something the user can see is still running, versus indefinite standing capture "in case it\'s useful later".',
+    fix:'Scope the background mode to the active feature\'s window, or be ready to demo why continuous capture is required for the core function.' },
+  { key:'bystander', label:'Records or captures data about people other than the account holder (calls, ambient audio, contacts)', sev:'blocker', title:'Bystander data captured without their consent', cites:['5.1.2(i)'],
+    trigger:'App records audio, video, or otherwise collects data about a person who isn\'t the one who granted the permission — ambient/background recording, call recording, contact-list ingestion.',
+    looks_for:'Whether the captured third party — not just the account holder — has given consent, and whether they have any visibility that capture is happening at all.',
+    fix:'Add an explicit consent or disclosure mechanism for the third party being captured. The account holder\'s own permission prompt doesn\'t cover data collected about someone else.' },
+  { key:'spam', label:'Similar to other apps already on the Store, including your own', sev:'watch', title:'Too similar to existing Store apps', cites:['4.3'],
+    trigger:'Template-derived app, or multiple near-identical submissions from the same developer account.',
+    looks_for:'Whether this is meaningfully different from other apps already live, including the developer\'s own catalogue.',
+    fix:'Differentiate substantively, or consolidate near-duplicates into one app with configuration instead of separate listings.' },
+  { key:'iprights', label:'Uses third-party brand names, logos, or content (team/league names, characters, scraped catalogs)', sev:'blocker', title:'Third-party IP without evidenced rights', cites:['5.2.1'],
+    trigger:'Brand names in metadata, recognizable characters, team/league names, or a scraped catalogue appear in the app.',
+    looks_for:'Evidence of permission wherever another party\'s marks or content are used.',
+    fix:'Hold documentation ready to attach to the review notes. Remove anything that can\'t be evidenced.' }
+];
+
+/* Infers likely audit flags from a live App Store listing — text/metadata only, no
+   screenshots, so screen-level HIG/completeness rules stay correctly out of scope here.
+   Each hit is tagged 'listing' (a structured field: price/genre/rating) or 'keyword' (a
+   description text match — a guess, not a fact) so the UI can be honest about which is which. */
+function inferAuditFromListing(app){
+  var desc = (app.description || '').toLowerCase();
+  var genre = (app.primaryGenreName || '').toLowerCase();
+  var rating = app.contentAdvisoryRating || '';
+  var price = app.price || 0;
+  var flags = {}, source = {};
+  function kw(key, re){ if(re.test(desc)){ flags[key]=true; source[key]='keyword'; } }
+  function set(key, val, src){ flags[key]=val; source[key]=src; }
+
+  if(genre.indexOf('kids')>-1) set('minors', true, 'listing');
+  kw('minors', /\bkids?\b|for children|ages? \d{1,2}\+?/);
+  if(genre.indexOf('health')>-1 || genre.indexOf('medical')>-1) set('health', true, 'listing');
+  kw('health', /heart rate|blood pressure|blood oxygen|glucose|step count|calories burned|\bworkout\b/);
+  kw('mic', /record(ing)? (your |the )?(audio|voice)|voice (memo|note|message)/);
+  kw('camera', /\bcamera\b|record video|screen record/);
+  kw('ugc', /\bpost\b|\bcomment\b|\bmessage\b|\bchat\b|share with friends|upload (a |your )?(photo|video)/);
+  kw('anonchat', /random chat|anonymous chat|meet (new people|strangers)|chat with strangers/);
+  if(price > 0) set('subscription', true, 'listing');
+  kw('subscription', /subscri(be|ption)|free trial|per (month|year)|\/mo\b|\/yr\b/);
+  kw('iap', /in-app purchase|virtual currency|\bcoins\b|\bgems\b|\bcredits\b|unlock premium/);
+  kw('ads', /ad-supported|with ads|free with ads|advertisement/);
+  kw('crypto', /crypto|bitcoin|blockchain|\bnft\b|\btoken\b/);
+  kw('sociallogin', /sign in with google|continue with facebook|log in with (google|facebook)/);
+  kw('nologin', /no account needed|no sign[- ]?up required|no login required/);
+  kw('regulated', /gambling|\bcasino\b|sports betting|\blottery\b|telehealth|prescription|\bbank(ing)?\b|day trading|\bcannabis\b/);
+  kw('ai', /ai[- ]powered|artificial intelligence|\bchatgpt\b|\bgpt-?4\b|machine learning|ai (assistant|chat|companion)/);
+  kw('claims', /powered by|integrates with|built on/);
+  kw('location', /\bgps\b|location-based|find nearby|near you|\bmap\b/);
+  kw('acctdelete', /sign ?up|create an account|log ?in|register/);
+  kw('background', /in the background|even when (the app is )?closed|continuous tracking/);
+  if(rating && /(4\+|9\+)/.test(rating) && (flags.ugc || flags.anonchat)) set('agerating', true, 'keyword');
+  if(flags.ads) set('tracking', true, 'keyword');
+  if((flags.mic || flags.camera) && /record(ing)? (calls|your friend|a friend)|call recording/.test(desc)) set('bystander', true, 'keyword');
+
+  return { flags: flags, source: source };
+}
+
+/* ============================================================
+   STATE + RENDER
+   ============================================================ */
+var state = {
+  view: 'guide',
+  activeSection: null,
+  activeGuide: G[0].id,
+  query: '',
+  activeFilters: new Set(),
+  drillDeck: [],
+  drillIdx: 0,
+  drillShown: false,
+  mastery: {},
+  audit: {},
+  caseQuery: '',
+  caseView: 'list',
+  activeCaseId: null,
+  customCases: [],
+  caseDraft: null,
+  lookupQuery: '',
+  lookupResults: [],
+  lookupStatus: 'idle',
+  lookupError: '',
+  lookupView: 'list',
+  activeLookupId: null,
+  lookupAudit: {},
+  lookupAuditSource: {}
+};
+
+try {
+  var saved = JSON.parse(localStorage.getItem('gt_state_v1') || '{}');
+  if (saved.mastery) state.mastery = saved.mastery;
+  if (saved.customCases) state.customCases = saved.customCases;
+} catch(e){}
+function persist(){
+  try { localStorage.setItem('gt_state_v1', JSON.stringify({ mastery: state.mastery, customCases: state.customCases })); } catch(e){}
+}
+function newCaseId(){ return 'custom-' + Date.now() + '-' + Math.floor(Math.random()*1000); }
+function blankDraft(name){
+  var d = { name: name||'', developer:'', category:'', description:'', history:'', flags:{} };
+  return d;
+}
+function allCases(){ return CASES.concat(state.customCases); }
+
+var $ = function(sel, root){ return (root||document).querySelector(sel); };
+var $$ = function(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); };
+
+/* App Lookup pulls live text from the iTunes Search API — always escape before innerHTML. */
+function escapeHtml(s){
+  return String(s==null ? '' : s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+function sectionOf(id){ return SECTIONS.filter(function(s){ return s.id===id; })[0]; }
+
+/* execCommand fallback for browsers/contexts where the async Clipboard API
+   is unavailable or blocked — Web Share API was tried here first and dropped:
+   on several browser/OS combinations its promise never settles (not reject,
+   just hangs), which is worse than a share button that silently does nothing. */
+function legacyCopy(text, cb){
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch(e){}
+  document.body.removeChild(ta);
+  if(cb) cb();
+}
+
+/* A soft, no-infra ask shown once a feature has actually produced value
+   (flagged results) — never gates anything, just a copy-link nudge. */
+function renderShareNudge(){
+  return '<div class="block" style="margin-top:22px;padding-top:18px;border-top:1px dashed var(--rule-firm);">'+
+    '<p style="font-size:12.5px;color:var(--muted);margin:0 0 10px;">Found something useful? Send this to someone else prepping a submission.</p>'+
+    '<button class="btn ghost" onclick="GT.shareLink(this)">Copy link to share →</button>'+
+    '</div>';
+}
+
+/* Some citations (e.g. "5.1.1(ix)", "2.3.6") reference a lettered/numbered
+   sub-point folded into its parent card rather than a standalone card.
+   Resolve to the nearest existing parent so every citation stays clickable. */
+function findGuide(num){
+  var exact = G.filter(function(x){ return x.num===num; })[0];
+  if(exact) return exact;
+  var base = num.replace(/\([^)]*\)\s*$/,'');
+  if(base !== num){
+    var m = G.filter(function(x){ return x.num===base; })[0];
+    if(m) return m;
+  }
+  var parts = base.split('.');
+  while(parts.length > 1){
+    parts.pop();
+    var candidate = parts.join('.');
+    var f = G.filter(function(x){ return x.num===candidate; })[0];
+    if(f) return f;
+  }
+  return null;
+}
+
+function matchesQuery(g, q){
+  if(!q) return true;
+  q = q.toLowerCase();
+  return (g.num+' '+g.title+' '+g.official+' '+g.explain+' '+g.example).toLowerCase().indexOf(q) !== -1;
+}
+
+function filteredGuides(){
+  var active = state.activeFilters;
+  return G.filter(function(g){
+    if(active.size && !active.has(g.sec)) return false;
+    return matchesQuery(g, state.query);
+  });
+}
+
+function renderSectionPills(){
+  var wrap = $('#sectionPills'); wrap.innerHTML = '';
+  SECTIONS.forEach(function(s){
+    var b = document.createElement('button');
+    b.className = 'pill'; b.textContent = s.title.split(' · ')[1];
+    var on = state.activeFilters.has(s.id);
+    b.dataset.on = on;
+    b.style.background = on ? s.accent : '';
+    b.style.borderColor = on ? s.accent : '';
+    b.style.color = on ? 'var(--paper)' : '';
+    b.onclick = function(){
+      if(state.activeFilters.has(s.id)) state.activeFilters.delete(s.id);
+      else state.activeFilters.add(s.id);
+      renderAll();
+    };
+    wrap.appendChild(b);
+  });
+}
+
+function renderList(){
+  var list = $('#glist'); list.innerHTML = '';
+  var guides = filteredGuides();
+  $('#searchCount').textContent = state.query ? (guides.length + ' match' + (guides.length===1?'':'es')) : '';
+  SECTIONS.forEach(function(sec){
+    var items = guides.filter(function(g){ return g.sec===sec.id; });
+    if(!items.length) return;
+    var block = document.createElement('div'); block.className = 'gsection';
+    var head = document.createElement('div'); head.className = 'gsection-head';
+    head.innerHTML = '<span class="gsection-dot" style="background:'+sec.accent+'"></span>'+
+      '<span class="gsection-title">'+sec.title+'</span>'+
+      '<span class="gsection-count">'+items.length+'</span>';
+    block.appendChild(head);
+    items.forEach(function(g){
+      var btn = document.createElement('button');
+      btn.className = 'glist-item';
+      btn.dataset.active = (state.view==='guide' && state.activeGuide===g.id);
+      var mk = state.mastery[g.id];
+      var markChar = mk==='know' ? '●' : mk==='shaky' ? '◐' : mk==='miss' ? '○' : '';
+      var markColor = mk==='know' ? 'var(--business)' : mk==='shaky' ? 'var(--changed)' : mk==='miss' ? 'var(--legal)' : 'transparent';
+      btn.innerHTML = '<span class="glist-num">'+g.num+'</span><span class="glist-title">'+g.title+(g.changed?' <span style="color:var(--changed)">◆</span>':'')+'</span><span class="glist-mark" style="color:'+markColor+'">'+markChar+'</span>';
+      btn.onclick = function(){ state.view='guide'; state.activeGuide=g.id; renderAll(); scrollTopMain(); closeRailMobile(); };
+      block.appendChild(btn);
+    });
+    list.appendChild(block);
+  });
+  if(!guides.length){
+    list.innerHTML = '<div style="padding:30px 18px;color:var(--muted);font-size:12.5px;">No guidelines match that search.</div>';
+  }
+}
+
+function highlightTerm(text, q){
+  if(!q) return text;
+  try{
+    var re = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig');
+    return text.replace(re, '<mark>$1</mark>');
+  }catch(e){ return text; }
+}
+
+function renderGuideDetail(){
+  var g = G.filter(function(x){ return x.id===state.activeGuide; })[0] || G[0];
+  var sec = sectionOf(g.sec);
+  $('#crumb').innerHTML = '<b>'+sec.title+'</b> › '+g.title;
+  document.documentElement.style.setProperty('--accent-current', sec.accent);
+  var idx = G.indexOf(g);
+  var prev = G[idx-1], next = G[idx+1];
+  var q = state.query;
+
+  var html = '';
+  html += '<div class="tagrow">';
+  html += '<span class="tag" style="background:'+sec.bg+';color:'+sec.accent+'">Guideline '+g.num+'</span>';
+  html += '<span class="tag outline">'+sec.title+'</span>';
+  if(g.changed) html += '<span class="tag changed">◆ Changed since 2016 — see Field Notes</span>';
+  html += '</div>';
+  html += '<h1 class="g-title">'+highlightTerm(g.title,q)+'</h1>';
+  html += '<div class="official"><b>Apple’s guideline (cited)</b>'+highlightTerm(g.official,q)+'</div>';
+  html += '<div class="block"><h3>What it actually means</h3><p>'+highlightTerm(g.explain,q)+'</p></div>';
+  if(g.mnemonic){
+    html += '<div class="block mnemonic" style="--accent:'+sec.accent+'"><h3>Memory technique</h3><p>'+highlightTerm(g.mnemonic,q)+'</p></div>';
+  }
+  html += '<div class="block"><h3>Example</h3><div class="example"><p style="font-size:13.5px;color:var(--body);line-height:1.7;margin:0">'+highlightTerm(g.example,q)+'</p></div></div>';
+  html += '<div class="navpair">';
+  html += prev ? '<button class="navbtn" onclick="GT.goto(\''+prev.id+'\')"><small>← Previous</small>'+prev.num+' '+prev.title+'</button>' : '<div></div>';
+  html += next ? '<button class="navbtn right" onclick="GT.goto(\''+next.id+'\')"><small>Next →</small>'+next.num+' '+next.title+'</button>' : '<div></div>';
+  html += '</div>';
+  $('#view').innerHTML = html;
+}
+
+function renderFrontispiece(){
+  $('#crumb').textContent = 'Guideline Tutor';
+  var changedCount = G.filter(function(g){return g.changed;}).length;
+  var html = '<div class="frontispiece">'+
+    '<div class="kicker">Reviewer’s reference</div>'+
+    '<h1 style="font-size:clamp(26px,4vw,36px);margin:16px 0 0;">'+G.length+' guidelines, cited, chunked, and drilled.</h1>'+
+    '<p class="lead">Search the current App Store Review Guidelines by number or keyword, read the plain-language version and a memorization pattern for each cluster, then drill yourself. Case Files connect real precedent to the rule text; Field Notes tracks what’s changed since a 2016-era baseline; Self-Audit runs a deterministic rule check against an app’s profile.</p>'+
+    '<div class="stats">'+
+      '<div class="stat"><b>'+G.length+'</b><span>Guidelines cited</span></div>'+
+      '<div class="stat"><b>5</b><span>Top-level sections</span></div>'+
+      '<div class="stat"><b>'+changedCount+'</b><span>Changed since 2016</span></div>'+
+      '<div class="stat"><b>'+CASES.length+'</b><span>Case files</span></div>'+
+    '</div>'+
+    '<div class="quicklinks">'+
+      '<button class="quicklink" onclick="GT.setView(\'cases\')">Open Case Files →</button>'+
+      '<button class="quicklink" onclick="GT.setView(\'drill\')">Start a drill →</button>'+
+      '<button class="quicklink" onclick="GT.setView(\'notes\')">Read Field Notes →</button>'+
+      '<button class="quicklink" onclick="GT.setView(\'audit\')">Run a Self-Audit →</button>'+
+      '<button class="quicklink" onclick="GT.setView(\'lookup\')">Search App Lookup →</button>'+
+    '</div>'+
+  '</div>';
+  $('#view').innerHTML = html;
+}
+
+function renderNotes(){
+  $('#crumb').textContent = 'Field Notes — what changed since 2016';
+  var html = '<div class="kicker" style="margin-bottom:6px">For reviewers keeping current</div>'+
+    '<h1 style="font-size:26px;margin:0 0 22px;">Since a 2016 baseline</h1>';
+  NOTES.forEach(function(n){
+    html += '<div class="note">'+
+      '<div class="note-date">'+n.date+'</div>'+
+      '<h3>'+n.title+'</h3>'+
+      '<p>'+n.body+'</p>'+
+      '<div class="cites">Cites: '+n.cites.map(function(c){return '<a href="#" onclick="GT.gotoCite(event,\''+c+'\')" style="text-decoration:underline;color:var(--performance)">'+c+'</a>';}).join(', ')+'</div>'+
+    '</div>';
+  });
+  $('#view').innerHTML = html;
+}
+
+function renderAudit(){
+  $('#crumb').textContent = 'Self-Audit — rule-based, not AI';
+  var html = '<div class="kicker" style="margin-bottom:6px">Deterministic pattern check</div>'+
+    '<h1 style="font-size:26px;margin:0 0 10px;">Describe the app, get flagged risk areas</h1>'+
+    '<p style="font-size:13px;color:var(--muted);max-width:60ch;margin:0 0 26px;line-height:1.7;">This checks answers against a fixed rule table — the same pattern as a manual rules-based audit, not a live model call. Treat it as a starting checklist, not a verdict.</p>'+
+    '<div class="audit-grid" id="auditGrid"></div>'+
+    '<div class="audit-out" id="auditOut"></div>';
+  $('#view').innerHTML = html;
+  var grid = $('#auditGrid');
+  AUDIT_RULES.forEach(function(r){
+    var row = document.createElement('label');
+    row.className = 'opt';
+    row.style.width = '100%';
+    row.innerHTML = '<input type="checkbox" '+(state.audit[r.key]?'checked':'')+' /> '+r.label;
+    var input = row.querySelector('input');
+    input.onchange = function(){
+      state.audit[r.key] = input.checked;
+      renderAuditOut();
+    };
+    grid.appendChild(row);
+  });
+  renderAuditOut();
+}
+
+function renderAuditOut(){
+  var out = $('#auditOut');
+  var active = AUDIT_RULES.filter(function(r){ return state.audit[r.key]; });
+  var order = {blocker:0, likely:1, watch:2};
+  active.sort(function(a,b){ return order[a.sev]-order[b.sev]; });
+  if(!active.length){
+    out.innerHTML = '<div class="empty-audit">Check any that apply above — flags will appear here, ranked blocker → likely → watch.</div>';
+    return;
+  }
+  var html = '<h3 style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">'+active.length+' flag'+(active.length===1?'':'s')+', ranked</h3>';
+  active.forEach(function(r){
+    var g = findGuide(r.cites[0]);
+    html += '<div class="flag">'+
+      '<div class="sev '+r.sev+'">'+r.sev+'</div>'+
+      '<div><b>'+r.title+'</b>'+
+      '<p><b>Triggers:</b> '+r.trigger+'</p>'+
+      '<p><b>A reviewer checks:</b> '+r.looks_for+'</p>'+
+      '<p><b>Usually fixed by:</b> '+r.fix+'</p>'+
+      (g ? '<button onclick="GT.goto(\''+g.id+'\')">View '+r.cites.join(', ')+' →</button>' : '<span style="font-size:11px;color:var(--muted)">'+r.cites.join(', ')+'</span>')+
+      '</div></div>';
+  });
+  html += renderShareNudge();
+  html += '<div class="block" style="margin-top:30px;padding-top:22px;border-top:1px dashed var(--rule-firm);">'+
+    '<h3 style="color:var(--muted);margin-bottom:8px;">Beyond the checklist</h3>'+
+    '<p style="font-size:13px;color:var(--body);max-width:60ch;line-height:1.7;margin:0 0 14px;">This checks a fixed rule table against a profile you typed in — a starting point, not a verdict. The paid Pre-Submission Audit goes through your actual build the way a reviewer will: guidelines, HIG, metadata, privacy declarations, permission strings — every finding ranked by likelihood of rejection, five working days.</p>'+
+    '<a class="btn" style="text-decoration:none;display:inline-block;" href="https://appreview.atharux.com/#rates" target="_blank" rel="noopener noreferrer">See the Pre-Submission Audit →</a>'+
+    '</div>';
+  out.innerHTML = html;
+}
+
+function renderCases(){
+  if(state.caseView === 'detail' && state.activeCaseId) return renderCaseDetail();
+  if(state.caseView === 'new') return renderCaseBuilder();
+  return renderCaseList();
+}
+
+function renderCaseList(){
+  $('#crumb').textContent = 'Case Files';
+  var html = '<div class="kicker" style="margin-bottom:6px">Connect the dots</div>'+
+    '<h1 style="font-size:26px;margin:0 0 10px;">History, metadata, and guidelines — in one file</h1>'+
+    '<p style="font-size:13px;color:var(--muted);max-width:60ch;margin:0 0 22px;line-height:1.7;">'+
+    'Search any app. Seeded entries below are real, publicly documented App Store review decisions. Anything else needs a new case built by hand — see the note below.</p>'+
+    '<div class="case-search"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>'+
+    '<input id="caseSearch" type="text" placeholder="Search app, developer, or category…" value="'+state.caseQuery.replace(/"/g,'&quot;')+'" /></div>'+
+    '<button class="new-case-btn" id="newCaseBtn">+ Build a new case file for an app not listed here</button>'+
+    '<div class="case-list" id="caseListWrap"></div>'+
+    '<div class="honest-note">Case files here are still built by hand — seeded entries above are real, documented precedent; anything else means a new case entered manually below. For a real app\'s live App Store listing (icon, price, rating, description), search the <a href="#" onclick="GT.setView(\'lookup\');return false;" style="text-decoration:underline;color:var(--performance)">App Lookup</a> tab — it hits Apple\'s public search API directly, but nothing there auto-fills a case file; bring back what\'s useful and enter it here. Manual entries still get fully cross-referenced against all '+G.length+' guidelines below.</div>';
+  $('#view').innerHTML = html;
+  updateCaseListResults();
+  var si = $('#caseSearch');
+  si.addEventListener('input', function(e){ state.caseQuery = e.target.value; updateCaseListResults(); });
+  $('#newCaseBtn').addEventListener('click', function(){ GT.newCase(state.caseQuery); });
+}
+
+function updateCaseListResults(){
+  var q = state.caseQuery.toLowerCase();
+  var list = allCases().filter(function(c){
+    return !q || (c.appName+' '+c.developer+' '+c.category+' '+c.summary).toLowerCase().indexOf(q)!==-1;
+  });
+  var wrap = $('#caseListWrap');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  if(!list.length){
+    wrap.innerHTML = '<div class="case-empty">No case file matches "'+state.caseQuery+'" yet. Build one with the button above.</div>';
+    return;
+  }
+  list.forEach(function(c){
+    var isCustom = c.id.indexOf('custom-')===0;
+    var row = document.createElement('button');
+    row.className = 'case-row';
+    row.innerHTML = '<span class="case-status '+(isCustom?'custom':c.status)+'">'+(isCustom?'custom':c.status)+'</span>'+
+      '<span class="case-row-main"><b>'+c.appName+'</b><span>'+(c.developer||'—')+' · '+(c.category||'Uncategorized')+(c.year&&c.year!=='—'?' · '+c.year:'')+'</span></span>'+
+      '<span class="case-row-arrow">→</span>';
+    row.onclick = function(){ GT.openCase(c.id); };
+    wrap.appendChild(row);
+  });
+}
+
+function renderCaseDetail(){
+  var c = allCases().filter(function(x){ return x.id===state.activeCaseId; })[0];
+  if(!c){ state.caseView='list'; return renderCaseList(); }
+  $('#crumb').innerHTML = '<b>Case Files</b> › '+c.appName;
+  var isCustom = c.id.indexOf('custom-')===0;
+  var html = '<div class="tagrow">'+
+    '<span class="tag '+(isCustom?'outline':'')+'" style="'+(isCustom?'':'background:var(--legal-bg);color:var(--legal)')+'">'+(isCustom?'Custom case':c.status.toUpperCase())+'</span>'+
+    '<span class="tag outline">'+(c.category||'Uncategorized')+'</span>'+
+    (c.year && c.year!=='—' ? '<span class="tag outline">'+c.year+'</span>' : '')+
+    '</div>'+
+    '<h1 class="g-title">'+c.appName+'</h1>'+
+    '<div class="official"><b>Summary</b>'+c.summary+'</div>';
+
+  if(c.metadata && c.metadata.length){
+    html += '<div class="block"><h3>Metadata</h3><div class="case-meta-grid">'+
+      c.metadata.map(function(m){ return '<div class="case-meta-cell"><label>'+m.l+'</label><div>'+m.v+'</div></div>'; }).join('')+
+      '</div></div>';
+  }
+  if(c.timeline && c.timeline.length){
+    html += '<div class="block"><h3>History</h3><div class="timeline">'+
+      c.timeline.map(function(t){ return '<div class="tl-item"><div class="tl-date">'+t.date+'</div><div class="tl-event">'+t.event+'</div></div>'; }).join('')+
+      '</div></div>';
+  }
+  if(c.implicated && c.implicated.length){
+    html += '<div class="block"><h3>Guidelines implicated</h3><div class="impl-list">'+
+      c.implicated.map(function(im){
+        var g = findGuide(im.num);
+        return '<div class="impl-row" onclick="'+(g?'GT.goto(\''+g.id+'\')':'')+'" style="'+(g?'':'cursor:default;opacity:.7')+'"><div class="impl-num">'+im.num+'</div><div class="impl-why">'+im.why+'</div></div>';
+      }).join('')+
+      '</div></div>';
+  }
+  if(c.connect){
+    html += '<div class="block"><h3>Connecting the dots</h3><p>'+c.connect+'</p></div>';
+  }
+  if(c.sources && c.sources.length){
+    html += '<div class="sources-line">Sources: '+c.sources.map(function(s){return s.t;}).join(' · ')+'</div>';
+  }
+  html += '<div class="navpair"><button class="navbtn" onclick="GT.setCaseView(\'list\')"><small>← Back</small>All case files</button>'+
+    (isCustom ? '<button class="navbtn right" onclick="GT.deleteCase(\''+c.id+'\')"><small>Manage</small>Delete this case →</button>' : '<div></div>')+
+    '</div>';
+  $('#view').innerHTML = html;
+}
+
+function renderCaseBuilder(){
+  var d = state.caseDraft || blankDraft('');
+  $('#crumb').textContent = 'Case Files — new case';
+  var html = '<div class="kicker" style="margin-bottom:6px">Manual entry — no live lookup</div>'+
+    '<h1 style="font-size:26px;margin:0 0 22px;">Build a case file</h1>'+
+    '<div class="cform">'+
+    '<div><label class="flabel">App name</label><input type="text" id="cf-name" value="'+(d.name||'').replace(/"/g,'&quot;')+'" placeholder="e.g. Reclip" /></div>'+
+    '<div><label class="flabel">Developer / company</label><input type="text" id="cf-dev" value="'+(d.developer||'').replace(/"/g,'&quot;')+'" /></div>'+
+    '<div><label class="flabel">Category</label><input type="text" id="cf-cat" value="'+(d.category||'').replace(/"/g,'&quot;')+'" placeholder="e.g. Social Networking" /></div>'+
+    '<div><label class="flabel">What it does (metadata / description)</label><textarea id="cf-desc">'+(d.description||'')+'</textarea></div>'+
+    '<div><label class="flabel">History (prior submissions, rejections, context)</label><textarea id="cf-hist">'+(d.history||'')+'</textarea></div>'+
+    '<div><label class="flabel">Profile — check what applies</label><div class="opts" id="cf-flags"></div></div>'+
+    '<div style="display:flex;gap:10px;">'+
+    '<button class="btn" onclick="GT.saveCase()">Save case file</button>'+
+    '<button class="btn ghost" onclick="GT.setCaseView(\'list\')">Cancel</button>'+
+    '</div></div>';
+  $('#view').innerHTML = html;
+  var flagsWrap = $('#cf-flags');
+  AUDIT_RULES.forEach(function(r){
+    var lab = document.createElement('label');
+    lab.className = 'opt';
+    lab.innerHTML = '<input type="checkbox" data-key="'+r.key+'" '+(d.flags[r.key]?'checked':'')+' /> '+r.label;
+    flagsWrap.appendChild(lab);
+  });
+  ['cf-name','cf-dev','cf-cat','cf-desc','cf-hist'].forEach(function(id){
+    var f = { 'cf-name':'name','cf-dev':'developer','cf-cat':'category','cf-desc':'description','cf-hist':'history' }[id];
+    $('#'+id).addEventListener('input', function(e){ d[f] = e.target.value; state.caseDraft = d; });
+  });
+  $$('input[type="checkbox"]', flagsWrap).forEach(function(cb){
+    cb.addEventListener('change', function(){ d.flags[cb.dataset.key] = cb.checked; state.caseDraft = d; });
+  });
+}
+
+function pickDeck(){
+  var pool = state.activeFilters.size ? G.filter(function(g){return state.activeFilters.has(g.sec);}) : G.slice();
+  for(var i=pool.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=pool[i]; pool[i]=pool[j]; pool[j]=t; }
+  return pool;
+}
+
+function renderDrill(){
+  if(!state.drillDeck.length){ state.drillDeck = pickDeck(); state.drillIdx = 0; }
+  var g = state.drillDeck[state.drillIdx];
+  if(!g){ state.drillDeck = pickDeck(); state.drillIdx = 0; g = state.drillDeck[0]; }
+  var sec = sectionOf(g.sec);
+  $('#crumb').textContent = 'Drill — recall before reveal';
+  var counts = {know:0, shaky:0, miss:0};
+  Object.keys(state.mastery).forEach(function(k){ var v=state.mastery[k]; if(counts[v]!==undefined) counts[v]++; });
+
+  var html = '<div class="kicker" style="margin-bottom:6px">Drill '+(state.drillIdx+1)+' of '+state.drillDeck.length+'</div>'+
+    '<h1 style="font-size:22px;margin:0 0 20px;">Recall the guideline, then reveal.</h1>'+
+    '<div class="drill-card">'+
+      '<div class="drill-num" style="color:'+sec.accent+'">'+sec.title+'</div>'+
+      '<div class="drill-cite">'+g.num+' · '+g.title+'</div>'+
+      '<div style="font-size:12.5px;color:var(--muted);margin-top:10px;">Say the rule out loud before you click reveal.</div>'+
+      '<div class="drill-actions">'+
+        '<button class="btn ghost" onclick="GT.revealDrill()">Reveal</button>'+
+      '</div>'+
+      '<div class="drill-reveal" id="drillReveal" data-shown="'+state.drillShown+'">'+
+        '<div class="block"><h3>What it means</h3><p>'+g.explain+'</p></div>'+
+        (g.mnemonic ? '<div class="block mnemonic" style="--accent:'+sec.accent+'"><h3>Memory technique</h3><p>'+g.mnemonic+'</p></div>' : '')+
+        '<div class="block"><h3>Example</h3><div class="example"><p style="font-size:13px;margin:0;">'+g.example+'</p></div></div>'+
+        '<div class="drill-actions">'+
+          '<button class="btn miss" onclick="GT.rateDrill(\'miss\')">Missed it</button>'+
+          '<button class="btn shaky" onclick="GT.rateDrill(\'shaky\')">Shaky</button>'+
+          '<button class="btn know" onclick="GT.rateDrill(\'know\')">Knew it</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="drill-stats">'+
+      '<div><b style="color:var(--business)">'+counts.know+'</b>knew it</div>'+
+      '<div><b style="color:var(--changed)">'+counts.shaky+'</b>shaky</div>'+
+      '<div><b style="color:var(--legal)">'+counts.miss+'</b>missed</div>'+
+    '</div>';
+  $('#view').innerHTML = html;
+}
+
+/* ============================================================
+   APP LOOKUP — live search against Apple's public iTunes Search API
+   (no key required, CORS-open). Read-only reference: results are
+   not persisted and don't feed Case Files or any other mode.
+   ============================================================ */
+function renderLookup(){
+  if(state.lookupView === 'detail' && state.activeLookupId) return renderLookupDetail();
+  return renderLookupList();
+}
+
+function renderLookupList(){
+  $('#crumb').textContent = 'App Lookup — live App Store search';
+  var html = '<div class="kicker" style="margin-bottom:6px">Live reference, not a case file</div>'+
+    '<h1 style="font-size:26px;margin:0 0 10px;">Search the current App Store</h1>'+
+    '<p style="font-size:13px;color:var(--muted);max-width:60ch;margin:0 0 22px;line-height:1.7;">'+
+    'Queries Apple\'s public iTunes Search API directly from this page — no key, no server. Opening any result runs a deterministic keyword scan against the listing and flags potential guidelines; nothing leaves the browser, and you can save a flagged app straight into Case Files.</p>'+
+    '<div class="case-search"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>'+
+    '<input id="lookupSearch" type="text" placeholder="Search the App Store, e.g. “MyFitnessPal”" value="'+escapeHtml(state.lookupQuery)+'" /></div>'+
+    '<div class="case-list" id="lookupListWrap"></div>';
+  $('#view').innerHTML = html;
+
+  var wrap = $('#lookupListWrap');
+  if(state.lookupStatus === 'error'){
+    wrap.innerHTML = '<div class="case-empty">Couldn\'t reach the App Store search API ('+escapeHtml(state.lookupError)+'). Try again — this is a live network call, not local data.</div>';
+  } else if(state.lookupStatus === 'done'){
+    renderLookupResultsInto(wrap);
+  } else if(state.lookupQuery.trim()){
+    runLookupSearch();
+  } else {
+    wrap.innerHTML = '<div class="case-empty">Type an app name, developer, or keyword to search the live App Store.</div>';
+  }
+
+  var si = $('#lookupSearch');
+  si.addEventListener('input', function(e){
+    state.lookupQuery = e.target.value;
+    clearTimeout(state._lookupTimer);
+    if(!e.target.value.trim()){
+      state.lookupStatus = 'idle'; state.lookupResults = [];
+      var w = $('#lookupListWrap');
+      if(w) w.innerHTML = '<div class="case-empty">Type an app name, developer, or keyword to search the live App Store.</div>';
+      return;
+    }
+    state._lookupTimer = setTimeout(runLookupSearch, 450);
+  });
+  si.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ clearTimeout(state._lookupTimer); runLookupSearch(); }
+  });
+}
+
+function runLookupSearch(){
+  var wrap = $('#lookupListWrap');
+  var q = state.lookupQuery.trim();
+  if(!wrap || !q) return;
+  state.lookupStatus = 'loading';
+  wrap.innerHTML = '<div class="case-empty">Searching the App Store…</div>';
+  var thisQuery = q;
+  fetch('https://itunes.apple.com/search?entity=software&country=us&limit=25&term=' + encodeURIComponent(q))
+    .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(data){
+      if(state.lookupQuery.trim() !== thisQuery) return; // a newer query has since fired
+      state.lookupStatus = 'done';
+      state.lookupResults = data.results || [];
+      var w = $('#lookupListWrap');
+      if(w) renderLookupResultsInto(w);
+    })
+    .catch(function(err){
+      if(state.lookupQuery.trim() !== thisQuery) return;
+      state.lookupStatus = 'error';
+      state.lookupError = String((err && err.message) || err);
+      var w = $('#lookupListWrap');
+      if(w) w.innerHTML = '<div class="case-empty">Couldn\'t reach the App Store search API (' + escapeHtml(state.lookupError) + '). Try again — this is a live network call, not local data.</div>';
+    });
+}
+
+function renderLookupResultsInto(wrap){
+  var list = state.lookupResults;
+  if(!list.length){
+    wrap.innerHTML = '<div class="case-empty">No App Store results for "'+escapeHtml(state.lookupQuery)+'".</div>';
+    return;
+  }
+  wrap.innerHTML = '';
+  list.forEach(function(app){
+    var row = document.createElement('button');
+    row.className = 'case-row';
+    var icon = app.artworkUrl60 || app.artworkUrl100 || '';
+    var price = app.formattedPrice || (app.price === 0 ? 'Free' : (app.price != null ? '$' + app.price : '—'));
+    var rating = app.averageUserRating ? ('★' + app.averageUserRating.toFixed(1)) : '—';
+    row.innerHTML =
+      (icon ? '<img src="'+escapeHtml(icon)+'" alt="" width="36" height="36" style="border-radius:8px;flex:none;background:var(--rail)" />' : '<span style="width:36px;height:36px;flex:none;border-radius:8px;background:var(--rail)"></span>')+
+      '<span class="case-row-main"><b>'+escapeHtml(app.trackName || 'Untitled')+'</b><span>'+escapeHtml(app.sellerName || app.artistName || '—')+' · '+escapeHtml(app.primaryGenreName || '—')+' · '+escapeHtml(price)+' · '+escapeHtml(rating)+'</span></span>'+
+      '<span class="case-row-arrow">→</span>';
+    row.onclick = function(){ state.activeLookupId = app.trackId; state.lookupView = 'detail'; renderAll(); scrollTopMain(); };
+    wrap.appendChild(row);
+  });
+}
+
+function ensureLookupAudit(app){
+  if(!state.lookupAudit[app.trackId]){
+    var inferred = inferAuditFromListing(app);
+    state.lookupAudit[app.trackId] = inferred.flags;
+    state.lookupAuditSource[app.trackId] = inferred.source;
+  }
+  return state.lookupAudit[app.trackId];
+}
+
+function renderRiskScan(app){
+  ensureLookupAudit(app);
+  return '<div class="block"><h3>Potential guidelines — from this listing</h3>'+
+    '<p style="font-size:12.5px;color:var(--muted);max-width:62ch;line-height:1.7;margin:0 0 16px;">A deterministic keyword pass over the live description, category, price and age rating — not a model call, and not a verdict. Dismiss anything that doesn\'t apply; check more below if the listing missed something.</p>'+
+    '<div id="laFlags"></div>'+
+    '<details style="margin-top:14px;"><summary style="cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">+ Check more guidelines manually</summary>'+
+    '<div class="audit-grid" id="laGrid" style="margin-top:14px;"></div></details>'+
+    '<button class="btn" style="margin-top:18px;" onclick="GT.lookupToCase('+app.trackId+')">Save as case file →</button>'+
+    '</div>';
+}
+
+function paintRiskFlags(app){
+  var out = $('#laFlags');
+  if(!out) return;
+  var flags = state.lookupAudit[app.trackId] || {};
+  var source = state.lookupAuditSource[app.trackId] || {};
+  var active = AUDIT_RULES.filter(function(r){ return flags[r.key]; });
+  var order = {blocker:0, likely:1, watch:2};
+  active.sort(function(a,b){ return order[a.sev]-order[b.sev]; });
+  if(!active.length){
+    out.innerHTML = '<div class="empty-audit">No keyword matches in this listing. Check the box below to add anything the description didn\'t surface.</div>';
+    return;
+  }
+  var html = '<h3 style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">'+active.length+' potential flag'+(active.length===1?'':'s')+'</h3>';
+  active.forEach(function(r){
+    var g = findGuide(r.cites[0]);
+    var badge = source[r.key]==='listing' ? 'from listing' : (source[r.key]==='manual' ? 'you added this' : 'keyword match');
+    html += '<div class="flag">'+
+      '<div class="sev '+r.sev+'">'+r.sev+'</div>'+
+      '<div><b>'+r.title+'</b> <span class="tag outline" style="font-size:9px;padding:1px 7px;vertical-align:middle;">'+badge+'</span>'+
+      '<p><b>Triggers:</b> '+r.trigger+'</p>'+
+      '<p><b>A reviewer checks:</b> '+r.looks_for+'</p>'+
+      '<p><b>Usually fixed by:</b> '+r.fix+'</p>'+
+      (g ? '<button onclick="GT.goto(\''+g.id+'\')">View '+r.cites.join(', ')+' →</button>' : '<span style="font-size:11px;color:var(--muted)">'+r.cites.join(', ')+'</span>')+
+      ' <button onclick="GT.dismissLookupFlag('+app.trackId+',\''+r.key+'\')">Not applicable ×</button>'+
+      '</div></div>';
+  });
+  html += renderShareNudge();
+  out.innerHTML = html;
+}
+
+function paintRiskGrid(app){
+  var grid = $('#laGrid');
+  if(!grid) return;
+  var flags = state.lookupAudit[app.trackId] || {};
+  grid.innerHTML = '';
+  AUDIT_RULES.forEach(function(r){
+    var row = document.createElement('label');
+    row.className = 'opt';
+    row.style.width = '100%';
+    row.innerHTML = '<input type="checkbox" '+(flags[r.key]?'checked':'')+' /> '+r.label;
+    var input = row.querySelector('input');
+    input.onchange = function(){
+      state.lookupAudit[app.trackId][r.key] = input.checked;
+      if(input.checked) state.lookupAuditSource[app.trackId][r.key] = 'manual';
+      else delete state.lookupAuditSource[app.trackId][r.key];
+      paintRiskFlags(app);
+    };
+    grid.appendChild(row);
+  });
+}
+
+function renderLookupDetail(){
+  var app = state.lookupResults.filter(function(a){ return a.trackId === state.activeLookupId; })[0];
+  if(!app){ state.lookupView = 'list'; return renderLookupList(); }
+  $('#crumb').innerHTML = '<b>App Lookup</b> › ' + escapeHtml(app.trackName);
+  var icon = app.artworkUrl512 || app.artworkUrl100 || app.artworkUrl60 || '';
+  var price = app.formattedPrice || (app.price === 0 ? 'Free' : (app.price != null ? '$' + app.price : '—'));
+  var rating = app.averageUserRating ? (app.averageUserRating.toFixed(2) + ' ★ (' + (app.userRatingCount || 0).toLocaleString() + ' ratings)') : 'No ratings yet';
+  var released = app.releaseDate ? new Date(app.releaseDate).toLocaleDateString() : '—';
+  var updated = app.currentVersionReleaseDate ? new Date(app.currentVersionReleaseDate).toLocaleDateString() : '—';
+
+  var html = '<div class="tagrow">'+
+    '<span class="tag outline">'+escapeHtml(app.primaryGenreName || 'Uncategorized')+'</span>'+
+    '<span class="tag outline">'+escapeHtml(app.contentAdvisoryRating || 'Rating unknown')+'</span>'+
+    (app.version ? '<span class="tag outline">v'+escapeHtml(app.version)+'</span>' : '')+
+    '</div>'+
+    '<div style="display:flex;gap:16px;align-items:center;margin-bottom:18px;">'+
+      (icon ? '<img src="'+escapeHtml(icon)+'" alt="" width="64" height="64" style="border-radius:14px;flex:none" />' : '')+
+      '<div><h1 class="g-title" style="margin:0">'+escapeHtml(app.trackName)+'</h1>'+
+      '<div style="font-size:12.5px;color:var(--muted);margin-top:4px;">'+escapeHtml(app.sellerName || app.artistName || 'Unknown developer')+'</div></div>'+
+    '</div>'+
+    '<div class="block"><h3>Store details</h3><div class="case-meta-grid">'+
+      '<div class="case-meta-cell"><label>Price</label><div>'+escapeHtml(price)+'</div></div>'+
+      '<div class="case-meta-cell"><label>Rating</label><div>'+escapeHtml(rating)+'</div></div>'+
+      '<div class="case-meta-cell"><label>First released</label><div>'+escapeHtml(released)+'</div></div>'+
+      '<div class="case-meta-cell"><label>Current version updated</label><div>'+escapeHtml(updated)+'</div></div>'+
+    '</div></div>'+
+    (app.description ? '<div class="block"><h3>Description (from listing)</h3><div class="example"><p style="font-size:13px;color:var(--body);line-height:1.7;margin:0;white-space:pre-wrap;">'+escapeHtml(app.description)+'</p></div></div>' : '')+
+    renderRiskScan(app)+
+    '<div class="navpair"><button class="navbtn" onclick="GT.setLookupView(\'list\')"><small>← Back</small>Search results</button>'+
+    (app.trackViewUrl ? '<a class="navbtn right" href="'+escapeHtml(app.trackViewUrl)+'" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:block"><small>Open →</small>View on the App Store</a>' : '<div></div>')+
+    '</div>';
+  $('#view').innerHTML = html;
+  paintRiskFlags(app);
+  paintRiskGrid(app);
+}
+
+function renderAll(){
+  renderSectionPills();
+  renderList();
+  $$('.modepill').forEach(function(b){ b.dataset.on = (b.dataset.view === state.view); });
+  if(state.view==='guide'){
+    if(state.query && !state.activeGuide) { var f = filteredGuides()[0]; if(f) state.activeGuide = f.id; }
+    if(state.query === '' && document.activeElement !== $('#search') && !state._userPickedGuide){
+      renderFrontispiece();
+    } else {
+      renderGuideDetail();
+    }
+  } else if(state.view==='notes'){ renderNotes(); }
+  else if(state.view==='audit'){ renderAudit(); }
+  else if(state.view==='cases'){ renderCases(); }
+  else if(state.view==='drill'){ renderDrill(); }
+  else if(state.view==='lookup'){ renderLookup(); }
+  $('#masteryFoot').textContent = Object.keys(state.mastery).length + ' drilled';
+  $('#totalFoot').textContent = G.length + ' guidelines';
+}
+
+function scrollTopMain(){ $('.main').scrollTop = 0; }
+function closeRailMobile(){ $('#rail').classList.remove('open'); $('#scrim').classList.remove('show'); }
+
+window.GT = {
+  goto: function(id){ state.view='guide'; state.activeGuide=id; state._userPickedGuide=true; renderAll(); scrollTopMain(); },
+  gotoCite: function(ev, num){
+    ev.preventDefault();
+    var g = findGuide(num);
+    if(g) this.goto(g.id);
+  },
+  setView: function(v){ state.view=v; if(v==='guide'){ state._userPickedGuide=true; } if(v==='cases'){ state.caseView='list'; } if(v==='lookup'){ state.lookupView='list'; } renderAll(); scrollTopMain(); },
+  openCase: function(id){ state.activeCaseId=id; state.caseView='detail'; renderAll(); scrollTopMain(); },
+  setCaseView: function(v){ state.caseView=v; renderAll(); scrollTopMain(); },
+  setLookupView: function(v){ state.lookupView=v; renderAll(); scrollTopMain(); },
+  newCase: function(prefillName){
+    state.caseDraft = blankDraft(prefillName||'');
+    state.caseView = 'new';
+    renderAll(); scrollTopMain();
+  },
+  saveCase: function(){
+    var d = state.caseDraft;
+    if(!d || !d.name){ return; }
+    var implicated = [];
+    AUDIT_RULES.forEach(function(r){
+      if(d.flags[r.key]){ implicated.push({ num:r.cites[0], why:r.title+' — '+r.fix }); }
+    });
+    var metadata = [];
+    if(d.developer) metadata.push({l:'Developer', v:d.developer});
+    if(d.category) metadata.push({l:'Category', v:d.category});
+    var caseObj = {
+      id: newCaseId(), appName: d.name, developer: d.developer, year:'', status:'custom', category: d.category,
+      summary: d.description || 'No description entered.',
+      metadata: metadata,
+      timeline: d.history ? [{date:'Reviewer notes', event:d.history}] : [],
+      implicated: implicated,
+      connect: implicated.length ? ('Flagged against '+implicated.length+' guideline'+(implicated.length===1?'':'s')+' based on the profile checked below — review each before treating this as a decision, this is a starting checklist, not a verdict.') : 'No profile flags checked yet — open this case and edit it, or treat it as a plain reference note.',
+      sources: [{t:'Manually entered — reviewer case file'}]
+    };
+    state.customCases.push(caseObj);
+    persist();
+    state.activeCaseId = caseObj.id;
+    state.caseView = 'detail';
+    state.caseDraft = null;
+    renderAll(); scrollTopMain();
+  },
+  deleteCase: function(id){
+    state.customCases = state.customCases.filter(function(c){ return c.id!==id; });
+    persist();
+    state.caseView = 'list';
+    renderAll(); scrollTopMain();
+  },
+  lookupToCase: function(trackId){
+    var app = state.lookupResults.filter(function(a){ return a.trackId===trackId; })[0];
+    if(!app) return;
+    var d = blankDraft(app.trackName);
+    d.developer = app.sellerName || app.artistName || '';
+    d.category = app.primaryGenreName || '';
+    d.description = app.description || '';
+    d.flags = Object.assign({}, state.lookupAudit[trackId] || {});
+    state.caseDraft = d;
+    state.caseView = 'new';
+    state.view = 'cases';
+    renderAll(); scrollTopMain();
+  },
+  dismissLookupFlag: function(trackId, key){
+    if(state.lookupAudit[trackId]) state.lookupAudit[trackId][key] = false;
+    if(state.lookupAuditSource[trackId]) delete state.lookupAuditSource[trackId][key];
+    var app = state.lookupResults.filter(function(a){ return a.trackId===trackId; })[0];
+    if(app){ paintRiskFlags(app); paintRiskGrid(app); }
+  },
+  shareLink: function(btn){
+    var url = location.href.split('#')[0].split('?')[0];
+    function done(){
+      if(!btn) return;
+      var orig = btn.textContent;
+      btn.textContent = 'Copied ✓';
+      setTimeout(function(){ if(btn) btn.textContent = orig; }, 1800);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done).catch(function(){ legacyCopy(url, done); });
+    } else {
+      legacyCopy(url, done);
+    }
+  },
+  revealDrill: function(){ state.drillShown = true; renderAll(); },
+  rateDrill: function(rating){
+    var g = state.drillDeck[state.drillIdx];
+    state.mastery[g.id] = rating;
+    persist();
+    state.drillIdx++;
+    state.drillShown = false;
+    if(state.drillIdx >= state.drillDeck.length){ state.drillDeck = []; state.drillIdx = 0; }
+    renderAll();
+  }
+};
+
+$('#search').addEventListener('input', function(e){
+  state.query = e.target.value.trim();
+  state._userPickedGuide = state.query ? true : state._userPickedGuide;
+  if(state.view!=='guide') state.view='guide';
+  var f = filteredGuides();
+  if(state.query && f.length) state.activeGuide = f[0].id;
+  renderAll();
+});
+
+$$('.modepill').forEach(function(b){
+  b.addEventListener('click', function(){ GT.setView(b.dataset.view); });
+});
+
+$('#menuBtn').addEventListener('click', function(){
+  $('#rail').classList.toggle('open');
+  $('#scrim').classList.toggle('show');
+});
+$('#scrim').addEventListener('click', closeRailMobile);
+
+renderAll();
+
+})();
+</script>
