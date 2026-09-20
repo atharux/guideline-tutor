@@ -1,5 +1,7 @@
 # App Review Guideline Tutor
 
+![App Review Guideline Tutor demo — browsing guidelines, drilling a citation before reveal, and running the deterministic self-audit](docs/demo.gif)
+
 Live: **[appreview.atharux.com/tutor](https://appreview.atharux.com/tutor/)**
 
 A reviewer's reference for the current App Store Review Guidelines — cited,
